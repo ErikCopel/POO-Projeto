@@ -1,0 +1,76 @@
+nome_atividade1{
+    descricao:<string>
+    tempo_trabalho:<hh:mm:ss>
+    tempo_descanso:<hh:mm:ss>
+    alarme_trabalho_inicio:<endereco_arquivo>
+    alarme_descanso_inico:<endereco_arquivo>
+    alarme_descanso_fim:<endereco_arquivo>
+    ciclos_completos:{
+        <int>
+        <data>
+        <data>
+        <data>
+        ...
+    }
+}
+nome_atividade2{
+    descricao:<string>
+    tempo_trabalho:<hh:mm:ss>
+    tempo_descanso:<hh:mm:ss>
+    alarme_trabalho_inicio:<endereco_arquivo>
+    alarme_descanso_inico:<endereco_arquivo>
+    alarme_descanso_fim:<endereco_arquivo>
+    ciclos_completos:{
+        <int>
+        <data>
+        <data>
+        <data>
+        ...
+    }
+}
+nome_atividade3{
+    descricao:<string>
+    tempo_trabalho:<hh:mm:ss>
+    tempo_descanso:<hh:mm:ss>
+    alarme_trabalho_inicio:<endereco_arquivo>
+    alarme_descanso_inico:<endereco_arquivo>
+    alarme_descanso_fim:<endereco_arquivo>
+    ciclos_completos:{
+        <int>
+        <data>
+        <data>
+        <data>
+        ...
+    }
+}
+nome_atividade4{
+    descricao:<string>
+    tempo_trabalho:<hh:mm:ss>
+    tempo_descanso:<hh:mm:ss>
+    alarme_trabalho_inicio:<endereco_arquivo>
+    alarme_descanso_inico:<endereco_arquivo>
+    alarme_descanso_fim:<endereco_arquivo>
+    ciclos_completos:{
+        <int>
+        <data>
+        <data>
+        <data>
+        ...
+    }
+}
+nome_atividade5{
+    descricao:<string>
+    tempo_trabalho:<hh:mm:ss>
+    tempo_descanso:<hh:mm:ss>
+    alarme_trabalho_inicio:<endereco_arquivo>
+    alarme_descanso_inico:<endereco_arquivo>
+    alarme_descanso_fim:<endereco_arquivo>
+    ciclos_completos:{
+        <int>
+        <data>
+        <data>
+        <data>
+        ...
+    }
+}
+

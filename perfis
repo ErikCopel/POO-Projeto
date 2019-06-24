@@ -1,0 +1,28 @@
+perfil1{
+    ciclos_completos:{
+        <int>
+        <hh:mm:ss>
+        <data:int><hh:mm:ss>
+        <data:int><hh:mm:ss>
+        ...
+    }
+}
+perfil2{
+    ciclos_completos:{
+        <int>
+        <hh:mm:ss>
+        <data:int><hh:mm:ss>
+        <data:int><hh:mm:ss>
+        ...
+    }
+}
+perfil3{
+    ciclos_completos:{
+        <int>
+        <hh:mm:ss>
+        <data:int><hh:mm:ss>
+        <data:int><hh:mm:ss>
+        ...
+    }
+}
+
