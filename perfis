@@ -1,28 +1,10 @@
 perfil1{
-    ciclos_completos:{
-        <int>
-        <hh:mm:ss>
-        <data:int><hh:mm:ss>
-        <data:int><hh:mm:ss>
-        ...
-    }
+    ciclos_completos:{<int:long><data:int:long><data:int:long>...}
 }
 perfil2{
-    ciclos_completos:{
-        <int>
-        <hh:mm:ss>
-        <data:int><hh:mm:ss>
-        <data:int><hh:mm:ss>
-        ...
-    }
+    ciclos_completos:{<int:long><data:int:long><data:int:long>...}
 }
 perfil3{
-    ciclos_completos:{
-        <int>
-        <hh:mm:ss>
-        <data:int><hh:mm:ss>
-        <data:int><hh:mm:ss>
-        ...
-    }
+    ciclos_completos:{<int:long><data:int:long><data:int:long>...}
 }
 

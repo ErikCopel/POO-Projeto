@@ -1,76 +1,46 @@
 nome_atividade1{
     descricao:<string>
-    tempo_trabalho:<hh:mm:ss>
-    tempo_descanso:<hh:mm:ss>
-    alarme_trabalho_inicio:<endereco_arquivo>
-    alarme_descanso_inico:<endereco_arquivo>
-    alarme_descanso_fim:<endereco_arquivo>
-    ciclos_completos:{
-        <int>
-        <data>
-        <data>
-        <data>
-        ...
-    }
+    tempo_trabalho:<long>
+    tempo_descanso:<long>
+    alarme_trabalho_inicio:<string>
+    alarme_descanso_inico:<string>
+    alarme_descanso_fim:<string>
+    ciclos_completos:{<int><data:int:int><data:int:int><data:int:int>...}
 }
 nome_atividade2{
     descricao:<string>
-    tempo_trabalho:<hh:mm:ss>
-    tempo_descanso:<hh:mm:ss>
-    alarme_trabalho_inicio:<endereco_arquivo>
-    alarme_descanso_inico:<endereco_arquivo>
-    alarme_descanso_fim:<endereco_arquivo>
-    ciclos_completos:{
-        <int>
-        <data>
-        <data>
-        <data>
-        ...
-    }
+    tempo_trabalho:<long>
+    tempo_descanso:<long>
+    alarme_trabalho_inicio:<string>
+    alarme_descanso_inico:<string>
+    alarme_descanso_fim:<string>
+    ciclos_completos:{<int><data:int><data:int><data:int>...}
 }
 nome_atividade3{
     descricao:<string>
-    tempo_trabalho:<hh:mm:ss>
-    tempo_descanso:<hh:mm:ss>
-    alarme_trabalho_inicio:<endereco_arquivo>
-    alarme_descanso_inico:<endereco_arquivo>
-    alarme_descanso_fim:<endereco_arquivo>
-    ciclos_completos:{
-        <int>
-        <data>
-        <data>
-        <data>
-        ...
-    }
+    tempo_trabalho:<long>
+    tempo_descanso:<long>
+    alarme_trabalho_inicio:<string>
+    alarme_descanso_inico:<string>
+    alarme_descanso_fim:<string>
+    ciclos_completos:{<int><data:int><data:int><data:int>...}
 }
 nome_atividade4{
     descricao:<string>
-    tempo_trabalho:<hh:mm:ss>
-    tempo_descanso:<hh:mm:ss>
-    alarme_trabalho_inicio:<endereco_arquivo>
-    alarme_descanso_inico:<endereco_arquivo>
-    alarme_descanso_fim:<endereco_arquivo>
-    ciclos_completos:{
-        <int>
-        <data>
-        <data>
-        <data>
-        ...
-    }
+    tempo_trabalho:<long>
+    tempo_descanso:<long>
+    alarme_trabalho_inicio:<string>
+    alarme_descanso_inico:<string>
+    alarme_descanso_fim:<string>
+    ciclos_completos:{<int><data:int><data:int><data:int>...}
 }
 nome_atividade5{
     descricao:<string>
-    tempo_trabalho:<hh:mm:ss>
-    tempo_descanso:<hh:mm:ss>
-    alarme_trabalho_inicio:<endereco_arquivo>
-    alarme_descanso_inico:<endereco_arquivo>
-    alarme_descanso_fim:<endereco_arquivo>
-    ciclos_completos:{
-        <int>
-        <data>
-        <data>
-        <data>
-        ...
-    }
+    tempo_trabalho:<long>
+    tempo_descanso:<long>
+    alarme_trabalho_inicio:<string>
+    alarme_descanso_inico:<string>
+    alarme_descanso_fim:<string>
+    ciclos_completos:{<int><data:int><data:int><data:int>...}
 }
 

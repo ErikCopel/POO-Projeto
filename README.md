@@ -32,3 +32,12 @@ Sujeito à disponibilidade de tempo, objetiva-se ainda:
 - Adicionar estatísticas de usuário. 
 
 O programa, tendo cumprido suas especificações básicas, pode ser usado em um amplo leque de atividades que se beneficiam de um gerenciador de tempo, como estudos e prática esportiva, pois possibilidade a organização de todo um período de trabalho. O código, permanecendo aberto, pode servir de base para outros projetos, adição de novas funcionalidades e adaptação para dispositivos Android.
+
+
+### Sobre os arquivos de exemplo
+
+Cada bloco tem a mesma estrutura, e o mesmo tamanho, nos dois arquivos. Estou presumindo que java lida com arquivos de modo análogo a C, em que posso percorrer as linhas. Se for assim, saltar de um perfil a outro consiste em saltar um número determinado de linhas. Se um ponteiro está posicionado no título da atividade, encontrar uma informação específica também consiste em saltar um número especificado de linhas.
+
+Os dados são distinguidos por pontuação. A informação sempre estará dentro de <...>. Daí basta obter a string e fazer a conversão adequada no programa.
+
+A parte de ciclos completos será melhor trabalhada depois. Em resumo, é uma linha só, em que a primeira informação é o número total de ciclos completos, depois blocos identificando um dia, seguido do número e dos segundos totais de ciclos executados naquele dia. Tudo entre chaves.
