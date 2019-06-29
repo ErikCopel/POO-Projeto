@@ -41,3 +41,12 @@ Cada bloco tem a mesma estrutura, e o mesmo tamanho, nos dois arquivos. Estou pr
 Os dados são distinguidos por pontuação. A informação sempre estará dentro de <...>. Daí basta obter a string e fazer a conversão adequada no programa.
 
 A parte de ciclos completos será melhor trabalhada depois. Em resumo, é uma linha só, em que a primeira informação é o número total de ciclos completos, depois blocos identificando um dia, seguido do número e dos segundos totais de ciclos executados naquele dia. Tudo entre chaves.
+
+### Diagrama do Projeto
+
+![image](https://user-images.githubusercontent.com/46543896/60388487-c1d98a80-9a88-11e9-94a3-1413170601c9.png)
+
+### Diagrama de Classes
+![image](https://user-images.githubusercontent.com/46543896/60388478-9fe00800-9a88-11e9-99bb-e0b9ab796d78.png)
+
+
