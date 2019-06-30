@@ -41,3 +41,13 @@ Os arquivos com as informações dos perfis e das atividades ficarão organizado
 Assim fica mais fácil ler e escrever nos arquivos, e fazer buscas nas pastas. O endereço das pastas são especificados quando o programa inicia e quando um perfil é selecionado.
 
 Dentro de cada arquivo, cada linha contém uma informação, e é iniciada com o titulo da informação, seguido da informação em si, separados por ";" (ponto e vírgula). 
+A parte de ciclos completos será melhor trabalhada depois. Em resumo, é uma linha só, em que a primeira informação é o número total de ciclos completos, depois blocos identificando um dia, seguido do número e dos segundos totais de ciclos executados naquele dia.
+
+### Diagrama do Projeto
+
+![image](https://user-images.githubusercontent.com/46543896/60388487-c1d98a80-9a88-11e9-94a3-1413170601c9.png)
+
+### Diagrama de Classes
+![image](https://user-images.githubusercontent.com/46543896/60388478-9fe00800-9a88-11e9-99bb-e0b9ab796d78.png)
+
+
