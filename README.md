@@ -36,8 +36,8 @@ O programa, tendo cumprido suas especificações básicas, pode ser usado em um 
 
 ### Sobre os arquivos de exemplo
 
-Cada bloco tem a mesma estrutura, e o mesmo tamanho, nos dois arquivos. Estou presumindo que java lida com arquivos de modo análogo a C, em que posso percorrer as linhas. Se for assim, saltar de um perfil a outro consiste em saltar um número determinado de linhas. Se um ponteiro está posicionado no título da atividade, encontrar uma informação específica também consiste em saltar um número especificado de linhas.
+Os arquivos com as informações dos perfis e das atividades ficarão organizados em pastas, dentro de Dados. Há uma pasta para os perfis, sendo um arquivo de texto para cada perfil. Há uma pasta para as Atividades, onde haverão pastas para cada perfil, contendo arquivos de textos com as atividades do perfil.
 
-Os dados são distinguidos por pontuação. A informação sempre estará dentro de <...>. Daí basta obter a string e fazer a conversão adequada no programa.
+Assim fica mais fácil ler e escrever nos arquivos, e fazer buscas nas pastas. O endereço das pastas são especificados quando o programa inicia e quando um perfil é selecionado.
 
-A parte de ciclos completos será melhor trabalhada depois. Em resumo, é uma linha só, em que a primeira informação é o número total de ciclos completos, depois blocos identificando um dia, seguido do número e dos segundos totais de ciclos executados naquele dia. Tudo entre chaves.
+Dentro de cada arquivo, cada linha contém uma informação, e é iniciada com o titulo da informação, seguido da informação em si, separados por ";" (ponto e vírgula). 
