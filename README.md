@@ -48,6 +48,6 @@ A parte de ciclos completos será melhor trabalhada depois. Em resumo, é uma li
 ![image](https://user-images.githubusercontent.com/46543896/60388487-c1d98a80-9a88-11e9-94a3-1413170601c9.png)
 
 ### Diagrama de Classes
-![image](https://user-images.githubusercontent.com/46543896/60388478-9fe00800-9a88-11e9-99bb-e0b9ab796d78.png)
+![image](https://raw.githubusercontent.com/ErikCopel/POO-Projeto/master/Diagrama%20de%20Classes.jpg)
 
 
