@@ -1,0 +1,4 @@
+Na pasta POO-Projeto:
+
+$ javac -cp src -d bin/ src/app/Pomodoro.java
+$ java -cp bin app/Pomodoro
