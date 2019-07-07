@@ -5,3 +5,7 @@ jdk:
   - oraclejdk11
   - openjdk10
   - openjdk11
+
+script: 
+  - javac -cp src -d bin/ src/app/Pomodoro.java
+  - java -cp bin app/Pomodoro
