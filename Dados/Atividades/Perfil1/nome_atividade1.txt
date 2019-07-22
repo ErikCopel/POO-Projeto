@@ -1,7 +1,0 @@
-descricao;<string>
-tempo_trabalho;<long>
-tempo_descanso;<long>
-alarme_trabalho_inicio;<string>
-alarme_descanso_inico;<string>
-alarme_descanso_fim;<string>
-ciclos_completos;{<int>,<data:int:int>,<data:int:int>,<data:int:int>,...}
