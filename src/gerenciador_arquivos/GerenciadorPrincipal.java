@@ -2,6 +2,7 @@ package gerenciador_arquivos;
 
 import perfil.Perfil;
 import pomodoro.Atividade;
+import pomodoro.Pomodoro;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -21,6 +22,7 @@ import java.util.stream.Stream;
 public class GerenciadorPrincipal {
 	public static File end_info_perf; // Endereco da pasta com os arquivos dos perfis
 	public static File end_info_ativ; // Endereco da pasta com as atividades (posteriormente vinculada e pasta do perfil especificado)
+	public static String sep;
 	
 	/* ===================================================
 
@@ -34,9 +36,14 @@ public class GerenciadorPrincipal {
 	 =================================================== */
 	public static void DefaultConfig() {
 		Path path = FileSystems.getDefault().getPath("").toAbsolutePath();
-		File pasta_dados = new File(path+"\\Dados");
-		File pasta_perfis = new File(path+"\\Dados\\Perfis");
-		File pasta_atividades = new File(path+"\\Dados\\Atividades");
+		if(path.toString().contains("/")) {
+			sep = "//";
+		} else {
+			sep = "\\";
+		}
+		File pasta_dados = new File(path+sep+"Dados");
+		File pasta_perfis = new File(path+sep+"Dados"+sep+"Perfis");
+		File pasta_atividades = new File(path+sep+"Dados"+sep+"Atividades");
 		
 		if(!pasta_dados.exists())
 			pasta_dados.mkdir();
@@ -125,7 +132,7 @@ public class GerenciadorPrincipal {
 
 	=================================================== */
 	public static File buscarArquivo(String perfil) {
-		File Perfil_path = new File(end_info_perf.getAbsolutePath()+"\\"+perfil+".dat");
+		File Perfil_path = new File(end_info_perf.getAbsolutePath()+sep+perfil+".dat");
 		return Perfil_path.exists() ? Perfil_path:null;
 	}
 	
@@ -140,7 +147,7 @@ public class GerenciadorPrincipal {
 
 	=================================================== */	
 	public static File buscarArquivo(String perfil, String titulo_atividade) {
-		File atividade_path = new File(end_info_ativ.getAbsolutePath()+"\\"+perfil+"\\"+titulo_atividade+".dat");
+		File atividade_path = new File(end_info_ativ.getAbsolutePath()+sep+perfil+sep+titulo_atividade+".dat");
 		return atividade_path.exists() ? atividade_path:null;
 	}
 	
@@ -156,17 +163,17 @@ public class GerenciadorPrincipal {
 
 	=================================================== */
 	public static File gerarArquivo(Perfil perfil) {
-		File Perfil_path = new File(end_info_perf.getAbsolutePath() + "\\" + perfil.getNome() + ".dat");
+		File Perfil_path = new File(end_info_perf.getAbsolutePath()+sep+perfil.getNome() + ".dat");
 		try {
-			if (Perfil_path.createNewFile()) {
-				
+			if (!Perfil_path.exists()) {
+				Perfil_path.createNewFile();
 				try (ObjectOutputStream perfilFile = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(Perfil_path.getAbsolutePath())))){
 					perfilFile.writeObject(perfil);
 				}
 				
-				(new File(end_info_ativ.getAbsolutePath()+"\\"+perfil.getNome())).mkdir();
+				(new File(end_info_ativ.getAbsolutePath()+sep+perfil.getNome())).mkdir();
 				
-				//System.out.println("Perfil " + perfil.getNome() + " criado");
+				System.out.println("Perfil " + perfil.getNome() + " criado");
 				
 			} else {
 				System.out.println("Perfil "+perfil.getNome()+" ja existe");
@@ -184,15 +191,16 @@ public class GerenciadorPrincipal {
 	Descricao       - Metodo sobrecarregado. Gera um arquivo do tipo especificado como argumento.
 	Entrada         - Um tipo "Atividade", uma string com o perfil vinculado a atividade.
 	Processamento   - Gera um caminho para um arquivo ".dat" nomeado com o titulo da Atividade passada como argumento. 
-					   Verifica sua exist�ncia, e o cria caso naoo exista.
+					   Verifica sua existencia, e o cria caso naoo exista.
 	Saida           - Um tipo File vinculado ao endereco do arquivo gerado.
 
 	=================================================== */
-	public static void gerarArquivo(Atividade atividade, String perfil) {
-		File atividade_path = new File(end_info_ativ.getAbsolutePath() + "\\" + perfil + "\\" + atividade.getTitulo() + ".dat");
+	public static void gerarArquivo(Pomodoro atividade, String perfil) {
+		File atividade_path = new File(end_info_ativ.getAbsolutePath()+sep+perfil+sep+atividade.getTitulo() + ".dat");
 		try {
-			if (atividade_path.createNewFile()) {
+			if (!atividade_path.exists()) {
 				
+				atividade_path.createNewFile();
 				try (ObjectOutputStream perfilFile = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(atividade_path.getAbsolutePath())))){
 					perfilFile.writeObject(atividade);
 				}
@@ -217,12 +225,12 @@ public class GerenciadorPrincipal {
 
 	=================================================== */
 	public static void removerArquivo(String perfil) {
-		File perfil_path = new File(end_info_perf.getAbsolutePath()+"\\"+perfil+".dat");
+		File perfil_path = new File(end_info_perf.getAbsolutePath()+sep+perfil+".dat");
 		if(perfil_path.exists()) {
-			// Deleta o arquivo com as informa��es do perfil
+			// Deleta o arquivo com as informacoes do perfil
 			perfil_path.delete();
 			
-			File end_atividades = new File(end_info_ativ.getAbsolutePath()+"\\"+perfil);
+			File end_atividades = new File(end_info_ativ.getAbsolutePath()+sep+perfil);
 			if(end_atividades.exists()) {
 				// Deleta todas as atividades vinculadas ao perfil
 				File[] arquivos = end_atividades.listFiles();
@@ -250,7 +258,7 @@ public class GerenciadorPrincipal {
 
 	=================================================== */
 	public static void removerArquivo(String titulo_atividade, String perfil) {
-		File atividade = new File(end_info_ativ.getAbsolutePath()+"\\"+perfil+"\\"+titulo_atividade+".dat");
+		File atividade = new File(end_info_ativ.getAbsolutePath()+sep+perfil+sep+titulo_atividade+".dat");
 		if(atividade.exists()) {
 			atividade.delete();
 		} else {

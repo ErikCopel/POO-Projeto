@@ -12,9 +12,10 @@ import java.io.IOException;
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("editor_atividade.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("login_perfil.fxml"));
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 751, 527));
+        //primaryStage.setScene(new Scene(root, 786, 527));
+        primaryStage.setScene(new Scene(root, 400, 300));
         primaryStage.show();
 	}
 	

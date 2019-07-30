@@ -7,6 +7,7 @@ import java.io.ObjectOutputStream;
 
 import perfil.Perfil;
 import pomodoro.Atividade;
+import pomodoro.Pomodoro;
 
 public class Escritor extends GerenciadorPrincipal {
 	
@@ -15,8 +16,8 @@ public class Escritor extends GerenciadorPrincipal {
 	}
 	
 	
-	public static void escreverAtividade(Atividade atividade, String perfil) {
-		File atividade_path = new File(end_info_ativ.getAbsolutePath() + "\\" + perfil + "\\" + atividade.getTitulo() + ".dat");
+	public static void escreverAtividade(Pomodoro atividade, String perfil) {
+		File atividade_path = new File(end_info_ativ.getAbsolutePath()+sep+perfil+sep+atividade.getTitulo() + ".dat");
 		try {
 			if(atividade_path.exists()) {
 				try (ObjectOutputStream atividadeFile = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(atividade_path.getAbsolutePath())))){
@@ -26,12 +27,12 @@ public class Escritor extends GerenciadorPrincipal {
 				gerarArquivo(atividade, perfil);
 			}
 		} catch(IOException ioe) {
-			ioe.printStackTrace();
+			System.out.println(ioe.getMessage());
 		}
 	}
 	
 	public static void escreverPerfil(Perfil perfil) {
-		File Perfil_path = new File(end_info_perf.getAbsolutePath() + "\\" + perfil.getNome() + ".dat");
+		File Perfil_path = new File(end_info_perf.getAbsolutePath()+sep+perfil.getNome() + ".dat");
 		try {
 			if(Perfil_path.exists()) {
 				try (ObjectOutputStream perfilFile = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(Perfil_path.getAbsolutePath())))){
@@ -41,7 +42,7 @@ public class Escritor extends GerenciadorPrincipal {
 				gerarArquivo(perfil);
 			}
 		} catch (IOException ioe) {
-			ioe.printStackTrace();
+			System.out.println(ioe.getMessage());
 		}
 	}
 	

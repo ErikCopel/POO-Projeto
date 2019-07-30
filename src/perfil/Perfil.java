@@ -12,6 +12,10 @@ public class Perfil implements Serializable, GerenciaBackup {
 	
 	public Perfil (String nome) {
 		this.nome = nome;
+		carregaLista();
+	}
+	
+	public void carregaLista() {
 		this.lista = new ListaAtividades(this.nome);
 	}
 	
@@ -32,13 +36,15 @@ public class Perfil implements Serializable, GerenciaBackup {
 	}
 	
 	
+	
+	
 	/*
 	 * Isso nao eh realmente necessario para essa classe
 	 */
-	public void salvar(Atividade item, String perfil) {
+	public void salvar(Pomodoro item, String perfil) {
 		
 	}
-	public void remover(Atividade item, String perfil) {
+	public void remover(Pomodoro item, String perfil) {
 		
 	}
 }

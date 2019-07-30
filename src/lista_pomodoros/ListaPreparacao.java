@@ -2,20 +2,19 @@ package lista_pomodoros;
 
 import interfaces.listaRealocacao;
 
-public class ListaExecucao extends ListaDePomodoros implements listaRealocacao {
+public class ListaPreparacao extends ListaDePomodoros implements listaRealocacao {
 	
-	
-	
-	public ListaExecucao() {
+	/* ===================================================
+
+	Metodo          - ListaPreparacao
+	Descricao       - Construtor da classe
+	Entrada         - 
+	Processamento   - 
+	Saida           -
+
+	 =================================================== */
+	public ListaPreparacao() {
 		super();
-	}
-	
-	public void iniciarAtividade() {
-		// this.getUltimo();
-	}
-	public void finalizarAtividade() {
-		this.removerUltimo();
-		iniciarAtividade();
 	}
 	
 	/* ===================================================
@@ -29,24 +28,12 @@ public class ListaExecucao extends ListaDePomodoros implements listaRealocacao {
 	 =================================================== */
 	public boolean moverAcima(String titulo) {
 		LinkedNode nodo = buscaItem(titulo);
-		if(!nodo.getData().comparaPomodoro(getPrimeiro().getData()) && nodo != getPrimeiro()) {
+		if(!nodo.getData().comparaPomodoro(getPrimeiro().getData())) {
 			LinkedNode anterior = nodo.anterior;
 			LinkedNode proximo = nodo.proximo;
 				
-			anterior.proximo = proximo;
-			if(proximo != null) {
-				proximo.anterior = anterior;
-			} else {
-				this.ultimoItem = anterior;
-			}
-
-			nodo.proximo = anterior;
-			nodo.anterior = anterior.anterior;
-			if(anterior.anterior != null) {
-				anterior.anterior.proximo = nodo;
-				anterior.anterior = nodo;
-			} else {
-				this.primeiroItem = nodo;
+			if(anterior == getPrimeiro()) {
+				
 			}
 				
 			return true;
@@ -65,24 +52,12 @@ public class ListaExecucao extends ListaDePomodoros implements listaRealocacao {
 	 =================================================== */
 	public boolean moverAbaixo(String titulo) {
 		LinkedNode nodo = buscaItem(titulo);
-		if(!nodo.getData().comparaPomodoro(getUltimo().getData()) && nodo != getUltimo()) {
+		if(!nodo.getData().comparaPomodoro(getUltimo().getData())) {
 			LinkedNode anterior = nodo.anterior;
 			LinkedNode proximo = nodo.proximo;
 			
-			proximo.anterior = anterior;
-			if(anterior != null) {
-				anterior.proximo = proximo;
-			} else {
-				this.primeiroItem = proximo;
-			}
-
-			nodo.anterior = proximo;
-			nodo.proximo = proximo.proximo;
-			if(proximo.proximo != null) {
-				proximo.proximo.anterior = nodo;
-				proximo.proximo = nodo;
-			} else {
-				this.ultimoItem = nodo;
+			if(anterior == getPrimeiro()) {
+				
 			}
 			
 			return true;
@@ -90,19 +65,19 @@ public class ListaExecucao extends ListaDePomodoros implements listaRealocacao {
 		return false;
 	}
 	
+
 	/* ===================================================
 
 	Metodo          - remover
 	Descricao       - Faz a remocao de um nodo identificado pelo nome
 	Entrada         - Uma string com o titulo da atividade/pomodoro
-	Processamento   - Caso exista, faz a remocao do nodo identificado pelo nome passado como argumento. O ultimo
-					nodo nao pode ser removido.
+	Processamento   - Caso exista, faz a remocao do nodo identificado pelo nome passado como argumento
 	Saida           -
 
 	 =================================================== */	
 	public void remover(String titulo) {
 		LinkedNode nodo = buscaItem(titulo);
-		if(nodo != null && nodo != this.ultimoItem) {
+		if(nodo != null) {
 			LinkedNode anterior = nodo.anterior;
 			LinkedNode proximo = nodo.proximo;
 			if(anterior == null) {
@@ -113,4 +88,5 @@ public class ListaExecucao extends ListaDePomodoros implements listaRealocacao {
 			proximo.anterior = anterior;
 		}
 	}
+	
 }

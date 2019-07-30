@@ -5,6 +5,7 @@ import pomodoro.Atividade;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
@@ -12,7 +13,6 @@ import java.io.ObjectInputStream;
 // Provavel que seus metodos serao static
 
 public class Leitor extends GerenciadorPrincipal {
-	
 	
 	static {
 		DefaultConfig();
@@ -27,22 +27,18 @@ public class Leitor extends GerenciadorPrincipal {
 	Saida           - Um tipo Perfil
 
 	=================================================== */
-	public static Perfil lerPerfil(String nome_perfil) {
-		File perfil_path = new File(end_info_ativ+"\\"+nome_perfil+".dat");
-		if(perfil_path.exists()) {
-			try(ObjectInputStream perfilFile = new ObjectInputStream(new BufferedInputStream(new FileInputStream(perfil_path.getAbsolutePath())))){
-				Perfil perfil_obj = (Perfil)perfilFile.readObject();
-				return perfil_obj;
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (ClassNotFoundException ce) {
-				ce.printStackTrace();
-			} catch (NullPointerException ne) {
-				ne.printStackTrace();
-			}
-		}
-		// Talvez isso cause problemas. Fa�a um try/catch onde o m�todo � invocado ou arrume isso aqui.
-		return null;
+	public static Perfil lerPerfil(String nome_perfil) throws ClassNotFoundException, IOException {
+		File perfil_path = new File(end_info_perf+sep+nome_perfil+".dat");
+		try(ObjectInputStream perfilFile = new ObjectInputStream(new BufferedInputStream(new FileInputStream(perfil_path.getAbsolutePath())))){
+			Perfil perfil_obj = (Perfil)perfilFile.readObject();
+			return perfil_obj;
+		} catch (IOException | ClassNotFoundException | NullPointerException e) {
+			throw e;
+		} 
+	}
+	
+	public static File buscarPerfil(String perfil) {
+		return buscarArquivo(perfil);
 	}
 	
 
@@ -55,22 +51,14 @@ public class Leitor extends GerenciadorPrincipal {
 	Saida           - Um tipo Atividade
 
 	=================================================== */
-	public static Atividade lerAtividade(String titulo_atividade, String nome_perfil) {
-		File perfil_path = new File(end_info_ativ+"\\"+nome_perfil);
-		if(perfil_path.exists()) {
-			try (ObjectInputStream atividadeFile = new ObjectInputStream(new BufferedInputStream(new FileInputStream(perfil_path.getAbsolutePath()+"\\"+titulo_atividade+".dat")))){
-				Atividade atividade_obj = (Atividade)atividadeFile.readObject();
-				return atividade_obj;
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (ClassNotFoundException ce) {
-				ce.printStackTrace();
-			} catch (NullPointerException ne) {
-				ne.printStackTrace();
-			}
+	public static Atividade lerAtividade(String titulo_atividade, String nome_perfil) throws IOException, ClassNotFoundException, NullPointerException {
+		File perfil_path = new File(end_info_ativ+sep+nome_perfil);
+		try (ObjectInputStream atividadeFile = new ObjectInputStream(new BufferedInputStream(new FileInputStream(perfil_path.getAbsolutePath()+sep+titulo_atividade+".dat")))){
+			Atividade atividade_obj = (Atividade)atividadeFile.readObject();
+			return atividade_obj;
+		} catch (IOException | ClassNotFoundException | NullPointerException e) {
+			throw e;
 		}
-		// Talvez isso cause problemas. Fa�a um try/catch onde o m�todo � invocado ou arrume isso aqui.
-		return null;
 	}
 	
 	/*
@@ -80,25 +68,32 @@ public class Leitor extends GerenciadorPrincipal {
 
 	*/
 
-	public String getTitulo(String atividade, String nome_perfil) {
+	public String getTitulo(String atividade, String nome_perfil) throws Exception {
 		return lerAtividade(atividade, nome_perfil).getTitulo();
 	}
 	
-	public String getDescricao(String atividade, String nome_perfil) {
+	public String getDescricao(String atividade, String nome_perfil) throws Exception {
 		return lerAtividade(atividade, nome_perfil).getDescricao();
 	}
 	
-	public int getDuracao(String atividade, String nome_perfil) {
+	public int getDuracao(String atividade, String nome_perfil) throws Exception {
 		return lerAtividade(atividade, nome_perfil).getDuracao();
 	}
 	
-	public int getDescanso(String atividade, String nome_perfil) {
+	public int getDescanso(String atividade, String nome_perfil) throws Exception {
 		return lerAtividade(atividade, nome_perfil).getPausa();
 	}
 	
 	public static String[] getListaAtividades(String perfil) {
-		File path = new File(end_info_ativ.getAbsolutePath()+"\\"+perfil);
-		return getListaArquivos(path);
+		File path = new File(end_info_ativ.getAbsolutePath()+sep+perfil);
+		if (path.exists())
+			return getListaArquivos(path);
+		else
+			return null;
+	}
+	
+	public static String[] getListaPerfis() {
+		return getListaArquivos(end_info_perf);
 	}
 	
 
