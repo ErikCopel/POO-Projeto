@@ -9,6 +9,7 @@ import java.io.Serializable;
 
 import interfaces.GerenciaTimer;
 import javafx.scene.control.Label;
+import utilidades.Utilidades;
 
 public abstract class Pomodoro implements Serializable, GerenciaTimer {
 	protected int tempoDeExecucao;
@@ -18,8 +19,9 @@ public abstract class Pomodoro implements Serializable, GerenciaTimer {
 	
 	
 	public Pomodoro() {
-		//
+		
 	}
+	
 	/* ===================================================
 
 	Metodo          - Pomodoro
@@ -60,6 +62,82 @@ public abstract class Pomodoro implements Serializable, GerenciaTimer {
 	
 	/* ===================================================
 
+	Metodo          - setTitulo
+	Descricao       - Metodo abstrato, a ser implementado nas subclasses. Atribui um titulo a instancia.
+	Entrada         - Uma string com o novo titulo da atividade
+	Processamento   - Faz a atribuicao do atributo "titulo" com o parametro especificado
+	Saida           - 
+
+	 =================================================== */
+	public abstract void setTitulo(String titulo);
+	
+	/* ===================================================
+
+	Metodo          - setDescricao
+	Descricao       - Metodo abstrato, a ser implementado nas subclasses. Atribui uma descricao a instancia.
+	Entrada         - Uma string com a descricao da atividade.
+	Processamento   - Faz a atribuicao do atributo "descricao" com o parametro especificado
+	Saida           - 
+
+	 =================================================== */
+	public abstract void setDescricao(String descricao);
+	
+	/* ===================================================
+
+	Metodo          - setTempoDeExecucao
+	Descricao       - Faz a atribuicao do atributo tempoDeExecucao.
+	Entrada         - Um inteiro com o novo tempo de execucao do pomodoro (em segundos).
+	Processamento   - Faz a atribuicao do atributo tempodDeExecucao do pomodoro com o novo tempo passado.
+	Saida           -
+
+	 =================================================== */
+	public void setTempoDeExecucao(int tempoDeExecucao) {
+		this.tempoDeExecucao = tempoDeExecucao;
+	}
+	
+	/* ===================================================
+
+	Metodo          - setTempoDePausa
+	Descricao       - Faz a atribuicao do atributo tempoDePausa
+	Entrada         - Um inteiro com o novo tempo de pausa do pomodoro (em segundos).
+	Processamento   - Faz a atribuicao do atributo tempoDePausa do pomodoro com o novo tempo passado.
+	Saida           -
+
+	 =================================================== */
+	public void setTempoDePausa(int tempoDePausa) {
+		this.tempoDePausa = tempoDePausa;
+	}
+	
+	/* ===================================================
+
+	Metodo          - setAlarmeInicio
+	Descricao       - Faz a atribuicao do atributo alarme_inicio
+	Entrada         - Uma string com o endereco de um arquivo de audio para o alarme de inicio.
+	Processamento   - Faz a atribuicao do atributo alarme_inicio do pomodoro com o novo endereco passado.
+	Saida           -
+
+	 =================================================== */
+	public void setAlarmeInicio(String alarme_inicio) {
+		// fazer um Exception pra verificar a validade da string
+		this.alarme_inicio = alarme_inicio;
+	}
+
+	/* ===================================================
+
+	Metodo          - setAlarmeInicio
+	Descricao       - Faz a atribuicao do atributo alarme_fim.
+	Entrada         - Uma string com o endereco de um arquivo de audio para o alarme de termino.
+	Processamento   - Faz a atribuicao do atributo alarme_fim do pomodoro com o novo endereco passado.
+	Saida           -
+
+	 =================================================== */
+	public void setAlarmeFim(String alarme_fim) {
+		// fazer um Exception para verificar a validade da string
+		this.alarme_fim = alarme_fim;
+	}
+	
+	/* ===================================================
+
 	Metodo          - getTitulo
 	Descricao       - Metodo abstrato, a ser implementado nas subclasses. Obtem o titulo da instancia.
 	Entrada         - 
@@ -71,31 +149,14 @@ public abstract class Pomodoro implements Serializable, GerenciaTimer {
 	
 	/* ===================================================
 
-	Metodo          - setTitulo
-	Descricao       - Metodo abstrato, a ser implementado nas subclasses. Atribui um titulo a instancia.
-	Entrada         - Uma string com o novo titulo da atividade
-	Processamento   - Faz a atribuicao do atributo "titulo" com o parametro especificado
-	Saida           - 
+	Metodo          - getDescricao
+	Descricao       - Metodo abstrato, a ser implementado nas subclasses. Obtem a descricao da instancia.
+	Entrada         - Uma string com a descricao da atividade.
+	Processamento   - 
+	Saida           - Retorna uma string com a descricao da atividade.
 
 	 =================================================== */
-	public abstract void setTitulo(String titulo);
-	
-	
 	public abstract String getDescricao();
-	
-	public abstract void setDescricao(String descricao);
-	
-	/* ===================================================
-
-	Metodo          - comparaPomodoro
-	Descricao       - Metodo abstrato, a ser implementado nas subclasses.
-					Faz uma comparacao entre a atual instancia e um objeto passado como parametro.
-	Entrada         - Um tipo Pomodoro
-	Processamento   - Compara a instancia da classe com o objeto passado.
-	Saida           - True se os objetos sao iguais. False caso contrario.
-
-	 =================================================== */
-	public abstract boolean comparaPomodoro(Pomodoro item);
 	
 	/* ===================================================
 
@@ -152,70 +213,15 @@ public abstract class Pomodoro implements Serializable, GerenciaTimer {
 	
 	/* ===================================================
 
-	Metodo          - setTempoDeExecucao
-	Descricao       - Faz a atribuicao do atributo tempoDeExecucao.
-	Entrada         - Um inteiro com o novo tempo de execucao do pomodoro (em segundos).
-	Processamento   - Faz a atribuicao do atributo tempodDeExecucao do pomodoro com o novo tempo passado.
-	Saida           -
+	Metodo          - comparaPomodoro
+	Descricao       - Metodo abstrato, a ser implementado nas subclasses.
+					Faz uma comparacao entre a atual instancia e um objeto passado como parametro.
+	Entrada         - Um tipo Pomodoro
+	Processamento   - Compara a instancia da classe com o objeto passado.
+	Saida           - True se os objetos sao iguais. False caso contrario.
 
 	 =================================================== */
-	public void setTempoDeExecucao(int tempoDeExecucao) {
-		this.tempoDeExecucao = tempoDeExecucao;
-	}
-	
-	/* ===================================================
-
-	Metodo          - setTempoDePausa
-	Descricao       - Faz a atribuicao do atributo tempoDePausa
-	Entrada         - Um inteiro com o novo tempo de pausa do pomodoro (em segundos).
-	Processamento   - Faz a atribuicao do atributo tempoDePausa do pomodoro com o novo tempo passado.
-	Saida           -
-
-	 =================================================== */
-	public void setTempoDePausa(int tempoDePausa) {
-		this.tempoDePausa = tempoDePausa;
-	}
-	
-	/* ===================================================
-
-	Metodo          - setAlarmeInicio
-	Descricao       - Faz a atribuicao do atributo alarme_inicio
-	Entrada         - Uma string com o endereco de um arquivo de audio para o alarme de inicio.
-	Processamento   - Faz a atribuicao do atributo alarme_inicio do pomodoro com o novo endereco passado.
-	Saida           -
-
-	 =================================================== */
-	public void setAlarmeInicio(String alarme_inicio) {
-		// fazer um Exception pra verificar a validade da string
-		this.alarme_inicio = alarme_inicio;
-	}
-
-	/* ===================================================
-
-	Metodo          - setAlarmeInicio
-	Descricao       - Faz a atribuicao do atributo alarme_fim.
-	Entrada         - Uma string com o endereco de um arquivo de audio para o alarme de termino.
-	Processamento   - Faz a atribuicao do atributo alarme_fim do pomodoro com o novo endereco passado.
-	Saida           -
-
-	 =================================================== */
-	public void setAlarmeFim(String alarme_fim) {
-		// fazer um Exception para verificar a validade da string
-		this.alarme_fim = alarme_fim;
-	}
-	
-
-	public void executaTimer(Label hora, Label min, Label sec) throws InterruptedException {
-		
-	}
-	
-	public void imprimeTempo(int tempo, Label hora, Label min, Label sec) {
-		
-	}
-	
-	public Integer[] secParaHMS(int tempo) {
-		return null;
-	}
+	public abstract boolean comparaPomodoro(Pomodoro item);
 	
 //	@Override
 //	public Pomodoro clone() {
@@ -235,4 +241,36 @@ public abstract class Pomodoro implements Serializable, GerenciaTimer {
 //			return null;
 //		}
 //	}
+	
+	/* ===================================================
+
+	Metodo          - duracaoParaHMS
+	Descricao       - Converte o tempo de duracao da instancia (em segundos, int) para
+					o formato HORAS/MINUTOS/SEGUNDOS, em um vetor de Integers.
+	Entrada         - 
+	Processamento   - Faz a chamada da função que faz a conversão, do pacote Utilidades
+	Saida           - Um vetor de Integers
+
+	 =================================================== */
+	public Integer[] duracaoParaHMS() {
+		return Utilidades.secParaHMS(this.tempoDeExecucao);
+	}
+	/* ===================================================
+
+	Metodo          - pausaParaHMS
+	Descricao       - Converte o tempo de pausa da instancia (em segundos, int) para
+					o formato HORAS/MINUTOS/SEGUNDOS, em um vetor de Integers.
+	Entrada         - 
+	Processamento   - Faz a chamada da função que faz a conversão, do pacote Utilidades
+	Saida           - Um vetor de Integers
+
+	 =================================================== */
+	public Integer[] pausaParaHMS() {
+		return Utilidades.secParaHMS(this.tempoDePausa);
+	}
+	
+	// Metodos da interface. Precisei declara-los aqui para usar polimorfismo.
+	public void executaTimer(Label hora, Label min, Label sec) throws InterruptedException {}
+	public void imprimeTempo(int tempo, Label hora, Label min, Label sec) { }
+	
 }

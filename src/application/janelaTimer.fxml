@@ -10,7 +10,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="649.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controladorJanelaTimer">
+<AnchorPane fx:id="pane"
+			fx:controller="application.controladorJanelaTimer"
+			maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="649.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" >
    <children>
       <GridPane layoutX="70.0" layoutY="117.0" prefHeight="400.0" prefWidth="649.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -44,9 +46,9 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Button mnemonicParsing="false" prefWidth="70.0" text="Up" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                              <Button layoutX="10.0" layoutY="45.0" mnemonicParsing="false" prefWidth="70.0" text="Down" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                              <Button layoutX="109.0" layoutY="14.0" mnemonicParsing="false" prefWidth="70.0" text="Remover" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                              <Button fx:id="moverAcima" onAction="#moverAcima" mnemonicParsing="false" prefWidth="70.0" text="Up" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Button fx:id="moverAbaixo" onAction="#moverAbaixo" layoutX="10.0" layoutY="45.0" mnemonicParsing="false" prefWidth="70.0" text="Down" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Button fx:id="remover"  onAction="#remover" layoutX="109.0" layoutY="14.0" mnemonicParsing="false" prefWidth="70.0" text="Remover" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                            </children>
                         </GridPane>
                      </children>
@@ -105,7 +107,7 @@
                      <children>
                         <Button fx:id="botaoResumir" disable="true" mnemonicParsing="false" prefWidth="70.0" text="Iniciar" GridPane.halignment="CENTER" GridPane.rowIndex="1" onAction="#resumirTimer"/>
                         <Button fx:id="botaoPausar" mnemonicParsing="false" prefWidth="70.0" text="Pausar" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" onAction="#pausarTimer"/>
-                        <Button fx:id="botaoCancelar" mnemonicParsing="false" prefWidth="70.0" text="Cancelar" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                        <Button fx:id="botaoCancelar" mnemonicParsing="false" prefWidth="70.0" text="Cancelar" GridPane.halignment="CENTER" GridPane.rowIndex="2" onAction="#cancelar"/>
                         <Button fx:id="botaoFinalizar" mnemonicParsing="false" prefWidth="70.0" text="Finalizar" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" onAction="#finalizarAtividade"/>
                      </children>
                   </GridPane>

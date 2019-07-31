@@ -2,8 +2,8 @@ package lista_pomodoros;
 import pomodoro.*;
 
 public abstract class ListaDePomodoros {
-	public LinkedNode primeiroItem = null;
-	public LinkedNode ultimoItem = null;
+	private LinkedNode primeiroItem = null;
+	private LinkedNode ultimoItem = null;
 	private int numeroNodos = 0;
 	
 	
@@ -11,9 +11,9 @@ public abstract class ListaDePomodoros {
 
 	Metodo          - ListaDePomodoros
 	Descricao       - Construtor da classe
-	Entrada         - 
-	Processamento   - Ainda sem processamento, dado que sua instanciacao eh feita e o objeto eh preenchido de conteudo
-					no contexto de login de um usuario.
+	Entrada         - ??
+	Processamento   - ?? Ainda sem processamento, dado que sua instanciacao eh feita e o objeto eh preenchido de conteudo
+						no contexto de login de um usuario.
 	Saida           -
 
 	 =================================================== */
@@ -73,6 +73,18 @@ public abstract class ListaDePomodoros {
 			this.primeiroItem = novoItem;
 		}
 		this.numeroNodos++;
+	}
+	
+	public void ordenar() {
+		// ?????
+	}
+	
+	public void setPrimeiro(LinkedNode novoPrimeiro) {
+		this.primeiroItem = novoPrimeiro;
+	}
+	
+	public void setUltimo(LinkedNode novoUltimo) {
+		this.ultimoItem = novoUltimo;
 	}
 
 	/* ===================================================

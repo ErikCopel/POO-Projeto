@@ -19,6 +19,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
+import lista_pomodoros.LinkedNode;
+import lista_pomodoros.ListaExecucao;
 import lista_pomodoros.ListaPreparacao;
 import perfil.Perfil;
 import pomodoro.Atividade;
@@ -55,37 +57,7 @@ public class controladorJanelaAtividades {
 	
 	Perfil perfil;
 	ListaPreparacao listaPreparacao = new ListaPreparacao();
-	
-	public void moverAcima() {
-		String atividadeSelecionada = listaAtividadesExecucao.getSelectionModel().getSelectedItem();
-		try {
-			if(listaPreparacao.moverAcima(atividadeSelecionada)) {
-				int indiceSelecionado = listaAtividadesExecucao.getSelectionModel().getSelectedIndex();
-				String atividadeAnterior = listaAtividadesExecucao.getItems().get(indiceSelecionado - 1);
-				System.out.println("Indice selecionado: "+indiceSelecionado+" - Atividade selecionada: "+atividadeSelecionada+" - Atividade anterior: "+atividadeAnterior);
-				listaAtividadesExecucao.getItems().set(indiceSelecionado, atividadeAnterior);
-				listaAtividadesExecucao.getItems().set(indiceSelecionado - 1, atividadeSelecionada);
-			}
-		} catch(NullPointerException e) {
-			//
-		}
-	}
-	
-	public void moverAbaixo() {
-		String atividadeSelecionada = listaAtividadesExecucao.getSelectionModel().getSelectedItem();
-		try {
-			if(listaPreparacao.moverAbaixo(atividadeSelecionada)) {
-				int indiceSelecionado = listaAtividadesExecucao.getSelectionModel().getSelectedIndex();
-				String atividadePosterior = listaAtividadesExecucao.getSelectionModel().getSelectedItem();
-				listaAtividadesExecucao.getItems().set(indiceSelecionado, atividadePosterior);
-				listaAtividadesExecucao.getItems().set(indiceSelecionado + 1, atividadeSelecionada);
-			}
-		} catch(NullPointerException e) {
-			//
-		}
-	}
-	
-	
+
 	/* ===================================================
 
 	Metodo          - 
@@ -99,6 +71,16 @@ public class controladorJanelaAtividades {
 		this.perfil = Perfil;
 		carregaAtividadesUsuario();
         listaAtividadesUsuario.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+	}
+	
+	public void initialize(Perfil Perfil, ListaExecucao lista) {
+		initialize(Perfil);
+		LinkedNode atual = lista.getUltimo();
+		while(atual != null) {
+			listaPreparacao.insereInicio(atual.getData());
+			listaAtividadesExecucao.getItems().add(0, atual.getData().getTitulo());
+			atual = atual.anterior;
+		}
 	}
 	
 	public void acionarTimer() throws IOException {
@@ -127,16 +109,19 @@ public class controladorJanelaAtividades {
 	
 	public void carregarJanelaEdicao(ActionEvent event) {
 		try {
-			FXMLLoader loader = new FXMLLoader (getClass().getResource("editor_atividade.fxml"));
-			Stage stage = new Stage(StageStyle.DECORATED);
-			stage.setScene(new Scene ( (Pane)loader.load() ));
-			stage.initModality(Modality.WINDOW_MODAL);
-			stage.initOwner(pane.getScene().getWindow());
-			
-			controladorEditorAtividades controller = loader.<controladorEditorAtividades>getController();
-			controller.initialize(perfil, listaAtividadesUsuario.getSelectionModel().getSelectedItem());
-			stage.showAndWait();
-			carregaAtividadesUsuario();
+			String itemSelecionado = listaAtividadesUsuario.getSelectionModel().getSelectedItem();
+			if(!itemSelecionado.isEmpty()) {
+				FXMLLoader loader = new FXMLLoader (getClass().getResource("editor_atividade.fxml"));
+				Stage stage = new Stage(StageStyle.DECORATED);
+				stage.setScene(new Scene ( (Pane)loader.load() ));
+				stage.initModality(Modality.WINDOW_MODAL);
+				stage.initOwner(pane.getScene().getWindow());
+				
+				controladorEditorAtividades controller = loader.<controladorEditorAtividades>getController();
+				controller.initialize(perfil, itemSelecionado);
+				stage.showAndWait();
+				carregaAtividadesUsuario();
+			}
 		} catch(NullPointerException | IOException e) {
 			System.out.println(e.getMessage());
 		} catch (Exception e) {
@@ -196,6 +181,79 @@ public class controladorJanelaAtividades {
 		});
 	}
 	
+	@FXML
+	public void listaPreparacaoMouseHandler() {
+		listaAtividadesExecucao.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent click) {
+				if(click.getClickCount() == 2) {
+					String itemSelecionado = listaAtividadesExecucao.getSelectionModel().getSelectedItem();
+					int indexSelecionado = listaAtividadesExecucao.getSelectionModel().getSelectedIndex();
+					listaPreparacao.remover(itemSelecionado);
+					listaAtividadesExecucao.getItems().remove(indexSelecionado);
+				}
+			}
+		});
+	}
+	
+	/* ===================================================
+
+	Metodo          - 
+	Descricao       - 
+	Entrada         - 
+	Processamento   - 
+	Saida           - 
+
+	=================================================== */		
+	public void moverAcima() {
+		String atividadeSelecionada = listaAtividadesExecucao.getSelectionModel().getSelectedItem();
+		try {
+			if(listaPreparacao.moverAcima(atividadeSelecionada)) {
+				int indiceSelecionado = listaAtividadesExecucao.getSelectionModel().getSelectedIndex();
+				String atividadeAnterior = listaAtividadesExecucao.getItems().get(indiceSelecionado - 1);
+				System.out.println("Indice selecionado: "+indiceSelecionado+" - Atividade selecionada: "+atividadeSelecionada+" - Atividade anterior: "+atividadeAnterior);
+				listaAtividadesExecucao.getItems().set(indiceSelecionado, atividadeAnterior);
+				listaAtividadesExecucao.getItems().set(indiceSelecionado - 1, atividadeSelecionada);
+				listaAtividadesExecucao.getSelectionModel().select(indiceSelecionado - 1); 
+			}
+		} catch(NullPointerException e) {
+			//
+		}
+	}
+	
+	/* ===================================================
+
+	Metodo          - 
+	Descricao       - 
+	Entrada         - 
+	Processamento   - 
+	Saida           - 
+
+	=================================================== */		
+	public void moverAbaixo() {
+		String atividadeSelecionada = listaAtividadesExecucao.getSelectionModel().getSelectedItem();
+		try {
+			if(listaPreparacao.moverAbaixo(atividadeSelecionada)) {
+				int indiceSelecionado = listaAtividadesExecucao.getSelectionModel().getSelectedIndex();
+				String atividadePosterior = listaAtividadesExecucao.getItems().get(indiceSelecionado + 1);
+				listaAtividadesExecucao.getItems().set(indiceSelecionado, atividadePosterior);
+				listaAtividadesExecucao.getItems().set(indiceSelecionado + 1, atividadeSelecionada);
+				listaAtividadesExecucao.getSelectionModel().select(indiceSelecionado + 1);
+			}
+		} catch(NullPointerException e) {
+			//
+		}
+	}
+	
+	/* ===================================================
+
+	Metodo          - 
+	Descricao       - 
+	Entrada         - 
+	Processamento   - 
+	Saida           - 
+
+	=================================================== */	
 	public void carregaAtividadesUsuario() {
 		perfil.carregaLista();
 		listaAtividadesUsuario.getItems().clear();
@@ -224,7 +282,7 @@ public class controladorJanelaAtividades {
 			System.out.println(ativ_selecionada.getDescricao());
 			descricaoAtividade.setText(ativ_selecionada.getDescricao());
 			String stringTempo =  Utilidades.tempoToString(ativ_selecionada.duracaoParaHMS());
-			duracaoAtividade.setText("Duraï¿½ï¿½o: "+stringTempo);
+			duracaoAtividade.setText("Duração: "+stringTempo);
 			stringTempo =  Utilidades.tempoToString(ativ_selecionada.pausaParaHMS());
 			pausaAtividade.setText("Pausa: "+stringTempo);
 		} catch(NullPointerException e) {

@@ -3,42 +3,8 @@ package pomodoro;
 import java.io.Serializable;
 import interfaces.GerenciaTimer;
 import javafx.scene.control.Label;
-import utilidades.Utilidades;
 
 public class ToDoList extends Pomodoro implements Serializable, GerenciaTimer {
-	
-	public class Tarefa {
-		String titulo;
-		int duracao;
-		int pausa;
-		
-		public Tarefa(String titulo, int duracao, int pausa) {
-			this.titulo = titulo;
-			this.duracao = duracao;
-			this.pausa = pausa;
-		}
-		
-		public int getDuracao() {
-			return this.duracao;
-		}
-		
-		public Integer[] getDuracaoHMS() {
-			return Utilidades.secParaHMS(this.duracao);
-		}
-		
-		public int getPausa() {
-			return this.pausa;
-		}
-		
-		public Integer[] getPausaHMS() {
-			return Utilidades.secParaHMS(this.pausa);
-		}
-		
-		public String getTitulo() {
-			return this.titulo;
-		}
-	}
-	
 	String titulo;
 	String descricao;
 	Tarefa[] listaTarefas;
@@ -77,7 +43,7 @@ public class ToDoList extends Pomodoro implements Serializable, GerenciaTimer {
 		construtor.append("\n\nTarefas:\n");
 		for (int i = 0; i < listaNomesTarefas.length; i++) {
 			// melhorar isso depois
-			construtor.append(listaNomesTarefas[i]+" - Duração: "+listaTarefas[i].getDuracao()+" - Pausa: "+listaTarefas[i].getPausa());
+			construtor.append(listaNomesTarefas[i]+" - Duracaoo: "+listaTarefas[i].getDuracao()+" - Pausa: "+listaTarefas[i].getPausa());
 			construtor.append("\n");
 		}
 		return construtor.toString();
@@ -109,8 +75,7 @@ public class ToDoList extends Pomodoro implements Serializable, GerenciaTimer {
 
 	@Override
 	public void setTitulo(String titulo) {
-		// TODO Auto-generated method stub
-		
+		this.titulo = titulo;
 	}
 	
 	@Override

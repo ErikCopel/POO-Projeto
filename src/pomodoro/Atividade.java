@@ -8,8 +8,8 @@ import javafx.scene.control.Label;
 import utilidades.Utilidades;
 
 public class Atividade extends Pomodoro implements Serializable, GerenciaTimer, Cloneable {
-	String titulo;
-	String descricao = "";
+	private String titulo;
+	private String descricao;
 	
 	/* ===================================================
 
@@ -124,36 +124,60 @@ public class Atividade extends Pomodoro implements Serializable, GerenciaTimer, 
 		}
 	}
 	
+	
+	/* ===================================================
+
+	Metodo          - executaTimer
+	Descricao       - Implementacao do metodo da interface. Eh o metodo chamado na classe controladora da janela
+					do Timer, na interface de usuario. Ele fara a contagem regressiva do tempo de execucao, segui-
+					do do tempo de Pausa, apresentando o tempo na tela (GUI).
+	Entrada         - Tipos "Label" hora, min e sec. Um objeto da interface de usuario onde os numeros do tempo'
+					serao apresentados.
+	Processamento   - A chamada deste metodo eh feita em uma Thread paralela a Thread principal do programa.
+					O metodo entre em um loop para a execucao, outro para a pausa, diminuindo-os em uma unidade
+					a cada segundo. Os loops sao quebrados apenas quando o tempo chega a 0.
+	Saida           - 
+
+	 =================================================== */
 	@Override
 	public void executaTimer(Label hora, Label min, Label sec) throws InterruptedException {
+		// Recupera o tempo de execucao
 		int tempoAtual = getDuracao();
 		while(true) {
+			// Faz a thread atual (paralela a principal) esperar por 1 segundo (1000ms)
 			Thread.sleep(1000);
 			tempoAtual--;
-			System.out.println(tempoAtual);
+			// Apresenta o tempo atual na interface de usuario
 			imprimeTempo(tempoAtual, hora, min, sec);
 			if(tempoAtual == 0) {
-				System.out.println("Terminou!");
 				break;
 			}
 		}
 		tempoAtual = getPausa();
-		System.out.println("Iniciando tempo de pausa: "+this.tempoDePausa);
 		while(true) {
 			Thread.sleep(1000);
 			tempoAtual--;
-			System.out.println(this.tempoDePausa);
 			imprimeTempo(tempoAtual, hora, min, sec);
 			if(tempoAtual == 0) {
-				System.out.println("Terminou!");
 				break;
 			}
 		}
 	}
 	
+	/* ===================================================
+
+	Metodo          - imprimeTempo
+	Descricao       - Implementacao do metodo da interface. Apresenta na tela o tempo da contagem regressiva
+	Entrada         - Um inteiro com o tempo (em segundos) a ser apresentado. Tipos "Label" para a hora, mi-
+					nutos e segundos.
+	Processamento   - O tempo (em segundos) eh convertido para o formato 00:00:00 (H:M:S) e apresentado na interface de 
+					usuario 
+	Saida           - 
+
+	 =================================================== */
 	@Override
 	public void imprimeTempo(int tempo, Label hora, Label min, Label sec) {
-		Integer[] hms = secParaHMS(tempo);
+		Integer[] hms = Utilidades.secParaHMS(tempo);
 		Platform.runLater(new Runnable(){
 			@Override
 			public void run() {
@@ -176,12 +200,5 @@ public class Atividade extends Pomodoro implements Serializable, GerenciaTimer, 
 				}
 			}
 		});
-	}
-	
-	public Integer[] duracaoParaHMS() {
-		return Utilidades.secParaHMS(this.tempoDeExecucao);
-	}
-	public Integer[] pausaParaHMS() {
-		return Utilidades.secParaHMS(this.tempoDePausa);
 	}
 }

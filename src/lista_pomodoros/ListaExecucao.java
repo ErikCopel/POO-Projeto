@@ -29,24 +29,46 @@ public class ListaExecucao extends ListaDePomodoros implements listaRealocacao {
 	 =================================================== */
 	public boolean moverAcima(String titulo) {
 		LinkedNode nodo = buscaItem(titulo);
-		if(!nodo.getData().comparaPomodoro(getPrimeiro().getData()) && nodo != getPrimeiro()) {
+		if(!(nodo == getUltimo() || nodo == getPrimeiro())) {
 			LinkedNode anterior = nodo.anterior;
 			LinkedNode proximo = nodo.proximo;
 				
-			anterior.proximo = proximo;
-			if(proximo != null) {
-				proximo.anterior = anterior;
-			} else {
-				this.ultimoItem = anterior;
-			}
-
-			nodo.proximo = anterior;
-			nodo.anterior = anterior.anterior;
-			if(anterior.anterior != null) {
-				anterior.anterior.proximo = nodo;
-				anterior.anterior = nodo;
-			} else {
-				this.primeiroItem = nodo;
+			if(anterior == getPrimeiro()) { // o nodo atual eh o segundo da lista
+				if(proximo == null) { // a lista tem apenas dois nodos
+					nodo.anterior = null;
+					nodo.proximo = anterior;
+					setPrimeiro(nodo);
+					
+					anterior.anterior = nodo;
+					anterior.proximo = null;
+					setUltimo(anterior);
+				} else {
+					nodo.anterior = null;
+					nodo.proximo = anterior;
+					setPrimeiro(nodo);
+					
+					anterior.anterior = nodo;
+					anterior.proximo = proximo;
+					proximo.anterior = anterior;
+				}
+			} else { // o nodo atual esta na terceira posicao e diante
+				if(proximo == null) { // o nodo atual eh o ultimo da lista
+					nodo.anterior = anterior.anterior;
+					nodo.proximo = anterior;
+					anterior.anterior.proximo = nodo;
+					
+					anterior.anterior = nodo;
+					anterior.proximo = null;
+					setUltimo(anterior);
+				} else { // o nodo atual esta em algum lugar no meio da lista.
+					nodo.anterior = anterior.anterior;
+					nodo.proximo = anterior;
+					anterior.anterior.proximo = nodo;
+					
+					anterior.anterior = nodo;
+					anterior.proximo = proximo;
+					proximo.anterior = anterior;
+				}
 			}
 				
 			return true;
@@ -65,24 +87,46 @@ public class ListaExecucao extends ListaDePomodoros implements listaRealocacao {
 	 =================================================== */
 	public boolean moverAbaixo(String titulo) {
 		LinkedNode nodo = buscaItem(titulo);
-		if(!nodo.getData().comparaPomodoro(getUltimo().getData()) && nodo != getUltimo()) {
+		if(!(nodo == getUltimo() || nodo == getUltimo().anterior)) {
 			LinkedNode anterior = nodo.anterior;
 			LinkedNode proximo = nodo.proximo;
 			
-			proximo.anterior = anterior;
-			if(anterior != null) {
-				anterior.proximo = proximo;
-			} else {
-				this.primeiroItem = proximo;
-			}
-
-			nodo.anterior = proximo;
-			nodo.proximo = proximo.proximo;
-			if(proximo.proximo != null) {
-				proximo.proximo.anterior = nodo;
-				proximo.proximo = nodo;
-			} else {
-				this.ultimoItem = nodo;
+			if(proximo == getUltimo()) { // o nodo atual eh o penultimo nodo
+				if(anterior == null) { // a lista so tem dois nodos
+					nodo.proximo = null;
+					nodo.anterior = proximo;
+					setUltimo(nodo);
+					
+					proximo.anterior = null;
+					proximo.proximo = nodo;
+					setPrimeiro(proximo);
+				} else {
+					nodo.proximo = null;
+					nodo.anterior = proximo;
+					setUltimo(nodo);
+					
+					proximo.anterior = anterior;
+					proximo.proximo = nodo;
+					anterior.proximo = proximo;
+				}
+			} else { // o nodo esta na antepenultima posicao para tras
+				if(anterior == null) { // o nodo esta na primeira posicao
+					nodo.proximo = proximo.proximo;
+					nodo.anterior = proximo;
+					proximo.proximo.anterior = nodo;
+					
+					proximo.anterior = null;
+					proximo.proximo = nodo;
+					setPrimeiro(proximo);
+				} else { // o nodo esta em algum lugar no meio da lista
+					nodo.proximo = proximo.proximo;
+					nodo.anterior = proximo;
+					proximo.proximo.anterior = nodo;
+					
+					proximo.anterior = anterior;
+					proximo.proximo = nodo;
+					anterior.proximo = proximo;
+				}
 			}
 			
 			return true;
@@ -100,17 +144,20 @@ public class ListaExecucao extends ListaDePomodoros implements listaRealocacao {
 	Saida           -
 
 	 =================================================== */	
-	public void remover(String titulo) {
+	public boolean remover(String titulo) {
 		LinkedNode nodo = buscaItem(titulo);
-		if(nodo != null && nodo != this.ultimoItem) {
+		if(nodo != null && nodo != getUltimo()) {
 			LinkedNode anterior = nodo.anterior;
 			LinkedNode proximo = nodo.proximo;
 			if(anterior == null) {
 				removerPrimeiro();
-				return;
+				return true;
 			}
 			anterior.proximo = proximo;
 			proximo.anterior = anterior;
+			return true;
+		} else {
+			return false;
 		}
 	}
 }

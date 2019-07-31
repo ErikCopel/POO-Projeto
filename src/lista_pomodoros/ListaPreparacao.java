@@ -32,8 +32,42 @@ public class ListaPreparacao extends ListaDePomodoros implements listaRealocacao
 			LinkedNode anterior = nodo.anterior;
 			LinkedNode proximo = nodo.proximo;
 				
-			if(anterior == getPrimeiro()) {
-				
+			if(anterior == getPrimeiro()) { // o nodo atual eh o segundo da lista
+				if(proximo == null) { // a lista tem apenas dois nodos
+					nodo.anterior = null;
+					nodo.proximo = anterior;
+					setPrimeiro(nodo);
+					
+					anterior.anterior = nodo;
+					anterior.proximo = null;
+					setUltimo(anterior);
+				} else {
+					nodo.anterior = null;
+					nodo.proximo = anterior;
+					setPrimeiro(nodo);
+					
+					anterior.anterior = nodo;
+					anterior.proximo = proximo;
+					proximo.anterior = anterior;
+				}
+			} else { // o nodo atual esta na terceira posicao e diante
+				if(proximo == null) { // o nodo atual eh o ultimo da lista
+					nodo.anterior = anterior.anterior;
+					nodo.proximo = anterior;
+					anterior.anterior.proximo = nodo;
+					
+					anterior.anterior = nodo;
+					anterior.proximo = null;
+					setUltimo(anterior);
+				} else { // o nodo atual esta em algum lugar no meio da lista.
+					nodo.anterior = anterior.anterior;
+					nodo.proximo = anterior;
+					anterior.anterior.proximo = nodo;
+					
+					anterior.anterior = nodo;
+					anterior.proximo = proximo;
+					proximo.anterior = anterior;
+				}
 			}
 				
 			return true;
@@ -56,8 +90,42 @@ public class ListaPreparacao extends ListaDePomodoros implements listaRealocacao
 			LinkedNode anterior = nodo.anterior;
 			LinkedNode proximo = nodo.proximo;
 			
-			if(anterior == getPrimeiro()) {
-				
+			if(proximo == getUltimo()) { // o nodo atual eh o penultimo nodo
+				if(anterior == null) { // a lista so tem dois nodos
+					nodo.proximo = null;
+					nodo.anterior = proximo;
+					setUltimo(nodo);
+					
+					proximo.anterior = null;
+					proximo.proximo = nodo;
+					setPrimeiro(proximo);
+				} else {
+					nodo.proximo = null;
+					nodo.anterior = proximo;
+					setUltimo(nodo);
+					
+					proximo.anterior = anterior;
+					proximo.proximo = nodo;
+					anterior.proximo = proximo;
+				}
+			} else { // o nodo esta na antepenultima posicao para tras
+				if(anterior == null) { // o nodo esta na primeira posicao
+					nodo.proximo = proximo.proximo;
+					nodo.anterior = proximo;
+					proximo.proximo.anterior = nodo;
+					
+					proximo.anterior = null;
+					proximo.proximo = nodo;
+					setPrimeiro(proximo);
+				} else { // o nodo esta em algum lugar no meio da lista
+					nodo.proximo = proximo.proximo;
+					nodo.anterior = proximo;
+					proximo.proximo.anterior = nodo;
+					
+					proximo.anterior = anterior;
+					proximo.proximo = nodo;
+					anterior.proximo = proximo;
+				}
 			}
 			
 			return true;
@@ -75,17 +143,20 @@ public class ListaPreparacao extends ListaDePomodoros implements listaRealocacao
 	Saida           -
 
 	 =================================================== */	
-	public void remover(String titulo) {
+	public boolean remover(String titulo) {
 		LinkedNode nodo = buscaItem(titulo);
 		if(nodo != null) {
 			LinkedNode anterior = nodo.anterior;
 			LinkedNode proximo = nodo.proximo;
 			if(anterior == null) {
 				removerPrimeiro();
-				return;
+				return true;
 			}
 			anterior.proximo = proximo;
 			proximo.anterior = anterior;
+			return true;
+		} else {
+			return false;
 		}
 	}
 	

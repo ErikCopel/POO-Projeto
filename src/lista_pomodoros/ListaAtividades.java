@@ -82,12 +82,12 @@ public class ListaAtividades extends ListaDePomodoros implements GerenciaBackup,
 			LinkedNode anterior = nodo.anterior;
 			LinkedNode proximo = nodo.proximo;
 			if(anterior == null) {
-				remover(primeiroItem.getData(), perfil);
+				remover(getPrimeiro().getData(), perfil);
 				removerPrimeiro();
 				return;
 			}
 			if(proximo == null) {
-				remover(ultimoItem.getData(), perfil);
+				remover(getUltimo().getData(), perfil);
 				removerUltimo();
 				return;
 			}
