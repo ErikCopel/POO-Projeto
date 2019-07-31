@@ -5,6 +5,7 @@ import java.io.Serializable;
 import interfaces.GerenciaTimer;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
+import utilidades.Utilidades;
 
 public class Atividade extends Pomodoro implements Serializable, GerenciaTimer, Cloneable {
 	String titulo;
@@ -177,19 +178,10 @@ public class Atividade extends Pomodoro implements Serializable, GerenciaTimer, 
 		});
 	}
 	
-	@Override
-	public Integer[] secParaHMS(int tempo) {
-		Integer[] hms = new Integer[3];
-		hms[0] = tempo/3600;
-		hms[1] = (tempo%3600)/60;
-		hms[2] = (tempo%3600)%60;
-		return hms;
-	}
-	
 	public Integer[] duracaoParaHMS() {
-		return secParaHMS(this.tempoDeExecucao);
+		return Utilidades.secParaHMS(this.tempoDeExecucao);
 	}
 	public Integer[] pausaParaHMS() {
-		return secParaHMS(this.tempoDePausa);
+		return Utilidades.secParaHMS(this.tempoDePausa);
 	}
 }

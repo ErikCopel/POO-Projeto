@@ -23,6 +23,7 @@ import lista_pomodoros.ListaPreparacao;
 import perfil.Perfil;
 import pomodoro.Atividade;
 import pomodoro.Pomodoro;
+import utilidades.Utilidades;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -222,41 +223,12 @@ public class controladorJanelaAtividades {
 			Atividade ativ_selecionada = (Atividade)perfil.getLista().buscaItem(ativ_titulo).getData();
 			System.out.println(ativ_selecionada.getDescricao());
 			descricaoAtividade.setText(ativ_selecionada.getDescricao());
-			String stringTempo =  tempoToString(ativ_selecionada.duracaoParaHMS());
-			duracaoAtividade.setText("Duração: "+stringTempo);
-			stringTempo =  tempoToString(ativ_selecionada.pausaParaHMS());
+			String stringTempo =  Utilidades.tempoToString(ativ_selecionada.duracaoParaHMS());
+			duracaoAtividade.setText("Duraï¿½ï¿½o: "+stringTempo);
+			stringTempo =  Utilidades.tempoToString(ativ_selecionada.pausaParaHMS());
 			pausaAtividade.setText("Pausa: "+stringTempo);
 		} catch(NullPointerException e) {
 			//
 		}
-	}
-	
-	/* ===================================================
-
-	Metodo          - 
-	Descricao       - 
-	Entrada         - 
-	Processamento   - 
-	Saida           - 
-
-	=================================================== */	
-	public String tempoToString(Integer[] hms) {
-		StringBuilder construtor = new StringBuilder();
-		if(hms[0] <= 9) {
-			construtor.append("0"+hms[0].toString()+":");
-		} else {
-			construtor.append(hms[0].toString()+":");
-		}
-		if(hms[1] <= 9) {
-			construtor.append("0"+hms[1].toString()+":");
-		} else {
-			construtor.append(hms[1].toString()+":");
-		}
-		if(hms[2] <= 9) {
-			construtor.append("0"+hms[2].toString());
-		} else {
-			construtor.append(hms[2].toString());
-		}
-		return construtor.toString();
 	}
 }

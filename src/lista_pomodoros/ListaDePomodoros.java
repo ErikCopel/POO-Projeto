@@ -11,9 +11,9 @@ public abstract class ListaDePomodoros {
 
 	Metodo          - ListaDePomodoros
 	Descricao       - Construtor da classe
-	Entrada         - ??
-	Processamento   - ?? Ainda sem processamento, dado que sua instanciacao eh feita e o objeto eh preenchido de conteudo
-						no contexto de login de um usuario.
+	Entrada         - 
+	Processamento   - Ainda sem processamento, dado que sua instanciacao eh feita e o objeto eh preenchido de conteudo
+					no contexto de login de um usuario.
 	Saida           -
 
 	 =================================================== */
@@ -73,10 +73,6 @@ public abstract class ListaDePomodoros {
 			this.primeiroItem = novoItem;
 		}
 		this.numeroNodos++;
-	}
-	
-	public void ordenar() {
-		// ?????
 	}
 
 	/* ===================================================

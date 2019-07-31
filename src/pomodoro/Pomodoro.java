@@ -17,6 +17,9 @@ public abstract class Pomodoro implements Serializable, GerenciaTimer {
 	private String alarme_fim;
 	
 	
+	public Pomodoro() {
+		//
+	}
 	/* ===================================================
 
 	Metodo          - Pomodoro
@@ -76,6 +79,11 @@ public abstract class Pomodoro implements Serializable, GerenciaTimer {
 
 	 =================================================== */
 	public abstract void setTitulo(String titulo);
+	
+	
+	public abstract String getDescricao();
+	
+	public abstract void setDescricao(String descricao);
 	
 	/* ===================================================
 

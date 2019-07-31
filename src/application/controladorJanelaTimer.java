@@ -13,6 +13,7 @@ import lista_pomodoros.ListaExecucao;
 import lista_pomodoros.ListaPreparacao;
 import perfil.Perfil;
 import pomodoro.Atividade;
+import utilidades.Utilidades;
 
 
 
@@ -162,23 +163,10 @@ public class controladorJanelaTimer {
 		Platform.runLater(new Runnable(){
 			@Override
 			public void run() {
-				if(hms[0] <= 9) {
-					contHora.setText("0"+hms[0].toString());
-				} else {
-					contHora.setText(hms[0].toString());
-				}
-				
-				if(hms[1] <= 9) {
-					contMin.setText("0"+hms[1].toString());
-				} else {
-					contMin.setText(hms[1].toString());
-				}
-				
-				if(hms[2] <= 9) {
-					contSec.setText("0"+hms[2].toString());
-				} else {
-					contSec.setText(hms[2].toString());
-				}
+				String[] tempo = Utilidades.tempoToString(hms).split(":");
+				contHora.setText(tempo[0]);
+				contMin.setText(tempo[1]);
+				contSec.setText(tempo[2]);
 			}
 		});
 	}
