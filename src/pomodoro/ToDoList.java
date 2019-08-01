@@ -5,6 +5,11 @@ import interfaces.GerenciaTimer;
 import javafx.scene.control.Label;
 
 public class ToDoList extends Pomodoro implements Serializable, GerenciaTimer {
+<<<<<<< HEAD
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3330172375102609018L;
 	String titulo;
 	String descricao;
 	Tarefa[] listaTarefas;
@@ -12,6 +17,16 @@ public class ToDoList extends Pomodoro implements Serializable, GerenciaTimer {
 	int idAtual;
 	int duracaoTotal;
 	int pausaTotal;
+||||||| merged common ancestors
+=======
+	String titulo;
+	String descricao;
+	Tarefa[] listaTarefas;
+	int maxTarefas;
+	int idAtual;
+	int duracaoTotal;
+	int pausaTotal;
+>>>>>>> e75a0740976deb1e3c74add34bf7cd4fa9d18362
 
 	public ToDoList(String titulo, String descricao, int numeroTarefas) {
 		super();
