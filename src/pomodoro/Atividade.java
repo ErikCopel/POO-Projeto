@@ -128,6 +128,11 @@ public class Atividade extends Pomodoro implements Serializable, GerenciaTimer, 
 		}
 	}
 	
+	@Override
+	public String toString() {
+		return getTitulo() + "\n\n" + getDescricao();
+	}
+	
 	
 	/* ===================================================
 

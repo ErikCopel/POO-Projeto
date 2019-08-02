@@ -13,16 +13,21 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="527.0" prefWidth="786.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controladorJanelaAtividades">
+<AnchorPane fx:id="painel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="527.0" prefWidth="786.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controladorJanelaAtividades">
    <children>
       <MenuBar layoutY="4.0" prefHeight="25.0" prefWidth="786.0">
         <menus>
           <Menu mnemonicParsing="false" text="Arquivo">
             <items>
-             	  <MenuItem mnemonicParsing="false" onAction="#carregarJanelaCriacao" text="Criar" />
+                  <Menu mnemonicParsing="false" text="Criar">
+                     <items>
+                   	  <MenuItem mnemonicParsing="false" onAction="#carregarJanelaCriacaoAtividade" text="Criar Atividade" />
+                        <MenuItem mnemonicParsing="false" onAction="#carregarJanelaCriacaoToDoList" text="Criar Todo List" />
+                     </items>
+                  </Menu>
                   <MenuItem id="MenuItemEditar" mnemonicParsing="false" onAction="#carregarJanelaEdicao" text="Editar" />
                   <MenuItem fx:id="MenuItemDeletar" mnemonicParsing="false" onAction="#deletaAtividade" text="Deletar" />
-                  <MenuItem fx:id="MenuItemDeslogar" mnemonicParsing="false" onAction="#deslogar" text="Deslogar"/>
+                  <MenuItem fx:id="MenuItemDeslogar" mnemonicParsing="false" onAction="#deslogar" text="Deslogar" />
             </items>
           </Menu>
         </menus>

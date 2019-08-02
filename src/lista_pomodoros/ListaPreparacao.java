@@ -152,6 +152,9 @@ public class ListaPreparacao extends ListaDePomodoros implements listaRealocacao
 			if(anterior == null) {
 				removerPrimeiro();
 				return true;
+			} else if (proximo == null) {
+				removerUltimo();
+				return true;
 			}
 			anterior.setProximo(proximo);
 			proximo.setAnterior(anterior);

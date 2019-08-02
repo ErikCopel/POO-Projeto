@@ -1,7 +1,7 @@
 package gerenciador_arquivos;
-import perfil.Perfil;
-import pomodoro.Atividade;
 
+import perfil.Perfil;
+import pomodoro.Pomodoro;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -74,7 +74,8 @@ public class Leitor extends GerenciadorPrincipal {
 			Perfil perfil_obj = (Perfil)perfilFile.readObject();
 			return perfil_obj;
 		} catch (IOException | ClassNotFoundException | NullPointerException e) {
-			throw e;
+			System.out.println(e.getMessage());
+			return null;
 		} 
 	}
 	
@@ -103,13 +104,14 @@ public class Leitor extends GerenciadorPrincipal {
 	Saida           - Um tipo Atividade
 
 	=================================================== */
-	public static Atividade lerAtividade(String titulo_atividade, String nome_perfil) throws IOException, ClassNotFoundException, NullPointerException {
+	public static Pomodoro lerAtividade(String titulo_atividade, String nome_perfil) throws IOException, ClassNotFoundException, NullPointerException {
 		File perfil_path = new File(end_info_ativ+sep+nome_perfil);
 		try (ObjectInputStream atividadeFile = new ObjectInputStream(new BufferedInputStream(new FileInputStream(perfil_path.getAbsolutePath()+sep+titulo_atividade+".dat")))){
-			Atividade atividade_obj = (Atividade)atividadeFile.readObject();
+			Pomodoro atividade_obj = (Pomodoro)atividadeFile.readObject();
 			return atividade_obj;
 		} catch (IOException | ClassNotFoundException | NullPointerException e) {
-			throw e;
+			System.out.println(e.getMessage());
+			return null;
 		}
 	}
 	

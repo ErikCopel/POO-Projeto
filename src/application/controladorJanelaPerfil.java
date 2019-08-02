@@ -23,7 +23,7 @@ public class controladorJanelaPerfil {
 	@FXML
 	private ComboBox<String> listaPerfil;
 	@FXML
-	private AnchorPane pane;
+	private AnchorPane painel;
 	
 	
 	/* ===================================================
@@ -70,7 +70,7 @@ public class controladorJanelaPerfil {
 			stage.show();
 			
 			// Fecha a janela atual.
-			((Stage)pane.getScene().getWindow()).close();
+			((Stage)painel.getScene().getWindow()).close();
 		} catch(NullPointerException | ClassNotFoundException | IOException e ) {
 			System.out.println(e.getMessage());
 		}
@@ -117,6 +117,7 @@ public class controladorJanelaPerfil {
 		if(!EmptyComboBox) {
 			listaPerfil.getItems().remove(text);
         	GerenciadorPrincipal.removerArquivo(text);
+        	listaPerfil.getEditor().setText("");
 		}
 	}
 }

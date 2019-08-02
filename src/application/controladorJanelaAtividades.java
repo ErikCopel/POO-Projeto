@@ -21,33 +21,42 @@ import lista_pomodoros.ListaExecucao;
 import lista_pomodoros.ListaPreparacao;
 import perfil.Perfil;
 import pomodoro.Atividade;
+import pomodoro.Pomodoro;
 import utilidades.Utilidades;
 import java.io.IOException;
 
+
+/*
+ * Bug conhecido: Caso eu tente adicionar um mesmo item mais de uma vez na lista de preparacao,
+ * varias referencias ao mesmo objeto serao adicionadas na lista, e nao objetos distintos, de modo
+ * que se eu faco uma alteracao em uma dessas referencias, isso reflete nas outras.
+ * Devo escrever um metodo dentro da classe Pomodoro para gerar uma copia de si mesma.
+ */
+
 public class controladorJanelaAtividades {
-	Perfil perfil;
-	ListaPreparacao listaPreparacao = new ListaPreparacao();
+	private Perfil perfil;
+	private ListaPreparacao listaPreparacao = new ListaPreparacao();
 	
 	@FXML
-	public ListView<String> listaAtividadesUsuario;
+	private ListView<String> listaAtividadesUsuario;
 	@FXML
-	public ListView<String> listaAtividadesExecucao;
+	private ListView<String> listaAtividadesExecucao;
 	@FXML
-	public TextArea descricaoAtividade;
+	private TextArea descricaoAtividade;
 	@FXML
-	public Label duracaoAtividade;
+	private Label duracaoAtividade;
 	@FXML
-	public Label pausaAtividade;
+	private Label pausaAtividade;
 	@FXML
-	public Button botaoAdicionar;
+	private Button botaoAdicionar;
 	@FXML
-	public Button botaoAcionarTimer;
+	private Button botaoAcionarTimer;
 	@FXML
-	public Button botaoDown;
+	private Button botaoDown;
 	@FXML
-	public Button botaoUp;
+	private Button botaoUp;
 	@FXML
-	public AnchorPane pane;
+	private AnchorPane painel;
 
 	/* ===================================================
 
@@ -109,7 +118,7 @@ public class controladorJanelaAtividades {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("janelaTimer.fxml"));
 		// Prepar a cena a ser apresentada
 		Stage stage = new Stage(StageStyle.DECORATED);
-		stage.setScene(new Scene((Pane)loader.load()));
+		stage.setScene(new Scene((Pane)loader.load())); // pode lancar um IOException
 		// Instancia um controlador da janela do timer, e executa o seu inicializador com os parametros
 		// adequados
 		controladorJanelaTimer controller = loader.<controladorJanelaTimer>getController();
@@ -117,30 +126,30 @@ public class controladorJanelaAtividades {
 		// Apresenta a janela
 		stage.show();
 		// Fecha a janela atual
-		((Stage)pane.getScene().getWindow()).close();
+		((Stage)painel.getScene().getWindow()).close();
 		
 	}
 	
 	/* ===================================================
 
-	Metodo          - carregarJanelaCriacao
-	Descricao       - Metodo atrelado ao botao "criar" do menu. Carrega a janela de edicao/criacao de atividades,
+	Metodo          - carregarJanelaCriacaoAtividade
+	Descricao       - Metodo atrelado ao botao "criar atividade" do menu. Carrega a janela de edicao/criacao de atividades,
 					configurando-a para criacao.
 	Entrada         - 
 	Processamento   - 
 	Saida           - 
 
 	=================================================== */
-	public void carregarJanelaCriacao() throws Exception {
+	public void carregarJanelaCriacaoAtividade() throws IOException {
 		// Carrega o arquivo com as informacoes do layout da interface
 		FXMLLoader loader = new FXMLLoader (getClass().getResource("editor_atividade.fxml"));
 		// Prepar a cena a ser apresentada
 		Stage stage = new Stage(StageStyle.DECORATED);
-		stage.setScene(new Scene( (Pane) loader.load()));
+		stage.setScene(new Scene( (Pane) loader.load())); // pode lancar um IOException
 		// Configura a tela de modo que a tela anterior (de atividades) fique inacessivel enquanto a
 		// criacao/edicao nao terminar
 		stage.initModality(Modality.WINDOW_MODAL);
-		stage.initOwner(pane.getScene().getWindow());
+		stage.initOwner(painel.getScene().getWindow());
 
 		// Instancia um controlador da janela do timer, e executa o seu inicializador com os parametros
 		// adequados
@@ -155,6 +164,30 @@ public class controladorJanelaAtividades {
 	
 	/* ===================================================
 
+	Metodo          - carregarJanelaCriacaoToDoList
+	Descricao       - Metodo atrelado ao botao "Criar Todo List" do menu. Carrega a janela de edicao/criacao de todo lists,
+					configurando-a para criacao.
+	Entrada         - 
+	Processamento   - 
+	Saida           - 
+
+	=================================================== */
+	public void carregarJanelaCriacaoToDoList() throws IOException {
+		FXMLLoader loader = new FXMLLoader (getClass().getResource("janelaEdicaoToDoList.fxml"));
+		Stage stage = new Stage(StageStyle.DECORATED);
+		stage.setScene(new Scene( (Pane) loader.load())); // pode lancar um IOException
+		stage.initModality(Modality.WINDOW_MODAL);
+		stage.initOwner(painel.getScene().getWindow());
+		
+		controladorEditorToDoList controller = loader.<controladorEditorToDoList>getController();
+		controller.initialize(perfil);
+		stage.showAndWait();
+		
+		carregaAtividadesUsuario();
+	}
+	
+	/* ===================================================
+
 	Metodo          - carregarJanelaEdicao
 	Descricao       - Metodo atrelado ao botao "editar" do menu. Carrega a janela de edicao/criacao de atividades,
 					configurando-a para edicao. Ao carregar a janela de edicao, eh carregado tambem os dados da atividade
@@ -162,6 +195,7 @@ public class controladorJanelaAtividades {
 					um problema de leitura do arquivo da atividade, eh usado um try-catch de IOException. Tambem eh usado
 					um catch de NullPointerException para o caso em que o usuario aperta o botao "editar" sem ter selecionado
 					nada na lista.
+					O metodo seleciona que tipo de atividade sera editada, chamando a janela adequada.
 	Entrada         - 
 	Processamento   - 
 	Saida           - 
@@ -172,28 +206,39 @@ public class controladorJanelaAtividades {
 			// Pega o titulo da atividade selecionada no ListView
 			String itemSelecionado = listaAtividadesUsuario.getSelectionModel().getSelectedItem();
 			if(!itemSelecionado.isEmpty()) { // isso provavelmente eh redundante, devido ao try-catch para NullException
-				// Carrega o layout da janela e prepara a cena, configurando a janela de modo que a janela
-				// anterior fique inacessivel ate terminar a edicao
-				FXMLLoader loader = new FXMLLoader (getClass().getResource("editor_atividade.fxml"));
-				Stage stage = new Stage(StageStyle.DECORATED);
-				stage.setScene(new Scene ( (Pane)loader.load() ));
-				stage.initModality(Modality.WINDOW_MODAL);
-				stage.initOwner(pane.getScene().getWindow());
-				
-				// Carrega o controlador da janela de edicao, inicializando-a com as informacoes da atividade
-				// que sera editada.
-				controladorEditorAtividades controller = loader.<controladorEditorAtividades>getController();
-				controller.initialize(perfil, itemSelecionado);
-				// Apresenta a janela e coloca o presente metodo em espera
-				stage.showAndWait();
-				// Ao retornar, atualiza a janela de atividades com as edicoes.
-				carregaAtividadesUsuario();
+				if(perfil.getLista().buscaItem(itemSelecionado).getData() instanceof Atividade) { // Verifica se a edicao sera de um tipo Atividade ou nao.
+					// Carrega o layout da janela e prepara a cena, configurando a janela de modo que a janela
+					// anterior fique inacessivel ate terminar a edicao
+					FXMLLoader loader = new FXMLLoader (getClass().getResource("editor_atividade.fxml"));
+					Stage stage = new Stage(StageStyle.DECORATED);
+					stage.setScene(new Scene ( (Pane)loader.load() ));
+					stage.initModality(Modality.WINDOW_MODAL);
+					stage.initOwner(painel.getScene().getWindow());
+					
+					// Carrega o controlador da janela de edicao, inicializando-a com as informacoes da atividade
+					// que sera editada.
+					controladorEditorAtividades controller = loader.<controladorEditorAtividades>getController();
+					controller.initialize(perfil, itemSelecionado);
+					// Apresenta a janela e coloca o presente metodo em espera
+					stage.showAndWait();
+					// Ao retornar, atualiza a janela de atividades com as edicoes.
+					carregaAtividadesUsuario();
+				} else {
+					FXMLLoader loader = new FXMLLoader (getClass().getResource("janelaEdicaoToDoList.fxml"));
+					Stage stage = new Stage(StageStyle.DECORATED);
+					stage.setScene(new Scene ( (Pane)loader.load() ));
+					stage.initModality(Modality.WINDOW_MODAL);
+					stage.initOwner(painel.getScene().getWindow());
+					
+					controladorEditorToDoList controller = loader.<controladorEditorToDoList>getController();
+					controller.initialize(perfil, itemSelecionado);
+					stage.showAndWait();
+					carregaAtividadesUsuario();
+				}
 			}
-		} catch(NullPointerException | IOException e) {
+		} catch(NullPointerException | IOException e) { // para os metodos load e initialize
 			System.out.println(e.getMessage());
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+		} 
 	}
 	
 	/* ===================================================
@@ -211,6 +256,14 @@ public class controladorJanelaAtividades {
 	public void deletaAtividade() {
 		perfil.getLista().remover(listaAtividadesUsuario.getSelectionModel().getSelectedItem());
 		listaAtividadesUsuario.getItems().remove(listaAtividadesUsuario.getSelectionModel().getSelectedItem());
+		if(listaAtividadesUsuario.getItems().isEmpty()) { // Limpa os campos da interface, se a lista de atividades do usuario estiver vazia
+			descricaoAtividade.setText("");
+			duracaoAtividade.setText("");
+			pausaAtividade.setText("");
+		} else { // Se nao, seleciona o primeiro item
+			listaAtividadesUsuario.getSelectionModel().select(0);
+			apresentarInfo();
+		}
 	}
 	
 	
@@ -231,7 +284,7 @@ public class controladorJanelaAtividades {
 			stage.setScene(new Scene((Pane)loader.load())); // lanca um IOException, caso haja
 															// problema na leitura dos dados de layout
 			stage.show();
-			((Stage)pane.getScene().getWindow()).close();
+			((Stage)painel.getScene().getWindow()).close();
 		} catch(IOException e) {
 			System.out.println(e.getMessage());
 		}
@@ -256,16 +309,20 @@ public class controladorJanelaAtividades {
 																				  // o usuario clica no objeto
 			@Override
 			public void handle(MouseEvent click) { // recebe o objeto do evento do clique
-				if(click.getClickCount() == 2) { // verifica se houve dois cliques
-					// Recupera o titulo da atividade selecionada
-					String itemSelecionado = listaAtividadesUsuario.getSelectionModel().getSelectedItem();
-					// Pega o item correspondente na lista de atividades do usuario e adiciona na lista de preparacao.
-					listaPreparacao.insereInicio(perfil.getLista().buscaItem(itemSelecionado).getData());
-					// Adiciona o titulo da atividade no ListView da lista de preparacao.
-					listaAtividadesExecucao.getItems().add(0, itemSelecionado);
-				} else {
-					// Se apenas um clique foi dado (selecao), apresenta os dados da atividade na interface grafica.
-					apresentarInfo();
+				try {
+					if(click.getClickCount() == 2) { // verifica se houve dois cliques
+						// Recupera o titulo da atividade selecionada
+						String itemSelecionado = listaAtividadesUsuario.getSelectionModel().getSelectedItem();
+						// Pega o item correspondente na lista de atividades do usuario e adiciona na lista de preparacao.
+						listaPreparacao.insereInicio(perfil.getLista().buscaItem(itemSelecionado).getData());
+						// Adiciona o titulo da atividade no ListView da lista de preparacao.
+						listaAtividadesExecucao.getItems().add(0, itemSelecionado);
+					} else {
+						// Se apenas um clique foi dado (selecao), apresenta os dados da atividade na interface grafica.
+						apresentarInfo();
+					}
+				} catch(NullPointerException e) {
+					// Caso em que o usuario tenta clicar duas vezes em uma parte vazia da lista.
 				}
 			}
 		});
@@ -288,14 +345,18 @@ public class controladorJanelaAtividades {
 																				   // o usuario clica no objeto
 			@Override
 			public void handle(MouseEvent click) { // recebe o objeto do evento do clique
-				if(click.getClickCount() == 2) {   // verifica se houve dois cliques
-					// Recebe a String com o titulo da atividade selecionada, e o seu indice no ListView
-					String itemSelecionado = listaAtividadesExecucao.getSelectionModel().getSelectedItem();
-					int indexSelecionado = listaAtividadesExecucao.getSelectionModel().getSelectedIndex();
-					// remove a atividade do objeto listaPreparacao
-					listaPreparacao.remover(itemSelecionado);
-					// remove o titulo da atividade do ListView
-					listaAtividadesExecucao.getItems().remove(indexSelecionado);
+				try {
+					if(click.getClickCount() == 2) {   // verifica se houve dois cliques
+						// Recebe a String com o titulo da atividade selecionada, e o seu indice no ListView
+						String itemSelecionado = listaAtividadesExecucao.getSelectionModel().getSelectedItem();
+						int indexSelecionado = listaAtividadesExecucao.getSelectionModel().getSelectedIndex();
+						// remove a atividade do objeto listaPreparacao
+						listaPreparacao.remover(itemSelecionado);
+						// remove o titulo da atividade do ListView
+						listaAtividadesExecucao.getItems().remove(indexSelecionado);
+					}
+				} catch(IndexOutOfBoundsException e) {
+					// Caso em que o usuario tenta interagir com a lista vazia.
 				}
 			}
 		});
@@ -406,9 +467,9 @@ public class controladorJanelaAtividades {
 		String ativ_titulo = listaAtividadesUsuario.getSelectionModel().getSelectedItem();
 		try {
 			// Recupera a atividade
-			Atividade ativ_selecionada = (Atividade)perfil.getLista().buscaItem(ativ_titulo).getData();
+			Pomodoro ativ_selecionada = perfil.getLista().buscaItem(ativ_titulo).getData();
 			// Apresenta a descricao no TextArea
-			descricaoAtividade.setText(ativ_selecionada.getDescricao());
+			descricaoAtividade.setText(ativ_selecionada.toString());
 			// Obtem uma string com o tempo de execucao no formato 00:00:00
 			String stringTempo =  Utilidades.tempoToString(ativ_selecionada.duracaoParaHMS());
 			// Apresenta o tempo de duracao no Label "duracaoAtividade"
