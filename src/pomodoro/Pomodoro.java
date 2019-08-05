@@ -3,6 +3,8 @@ package pomodoro;
 import java.io.Serializable;
 import interfaces.GerenciaTimer;
 import javafx.scene.control.Label;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.MediaException;
 import utilidades.Utilidades;
 
 public abstract class Pomodoro implements Serializable, GerenciaTimer {
@@ -41,8 +43,8 @@ public abstract class Pomodoro implements Serializable, GerenciaTimer {
 		setTempoDeExecucao(tempoDeExecucao);
 		setTempoDePausa(tempoDePausa);
 		
-		String endPadraoAlarmeInicio = "";
-		String endPadraoAlarmeFim = "";
+		String endPadraoAlarmeInicio = "alarme_inicio.mp3";
+		String endPadraoAlarmeFim = "alarme_fim.mp3";
 		setAlarmeInicio(endPadraoAlarmeInicio);
 		setAlarmeFim(endPadraoAlarmeFim);		
 	}
@@ -215,6 +217,48 @@ public abstract class Pomodoro implements Serializable, GerenciaTimer {
 	 =================================================== */
 	public String getAlarmeFim() {
 		return this.alarme_fim;
+	}
+	
+	/* ===================================================
+
+	Metodo          - tocarAlarmeInicio
+	Descricao       - Toca o audio do endereco do alarme de inicio
+	Entrada         - 
+	Processamento   - Tenta executar o audio. Ignora, se nao for possivel
+	Saida           - 
+
+	 =================================================== */
+	public void tocarAlarmeInicio() {
+		try {
+			System.out.println(getAlarmeInicio());
+			String arq = getClass().getResource(getAlarmeInicio()).toString();
+			AudioClip audio = new AudioClip(arq);
+			audio.play();
+		} catch(MediaException | NullPointerException e) {
+			System.out.println("Erro ao tocar o alarme de inicio.");
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	/* ===================================================
+
+	Metodo          - tocarAlarmeFim
+	Descricao       - Toca o audio do endereco do alarme de termino
+	Entrada         - 
+	Processamento   - Tenta executar o audio. Ignora, se nao for possivel
+	Saida           - 
+
+	 =================================================== */
+	public void tocarAlarmeFim() {
+		try {
+			System.out.println(getAlarmeFim());
+			String arq = getClass().getResource(getAlarmeFim()).toString();
+			AudioClip audio = new AudioClip(arq);
+			audio.play();
+		} catch(MediaException | NullPointerException e) {
+			System.out.println("Erro ao tocar o alarme de término.");
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	/* ===================================================

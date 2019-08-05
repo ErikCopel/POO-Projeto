@@ -210,10 +210,10 @@ public class controladorEditorAtividades {
 	=================================================== */	
 	@FXML
 	public void apertarOK() {
-		Atividade nova_atividade;
 		String titulo = campoTitulo.getText();
 		if(!titulo.isEmpty()) { // Nao eh possivel criar uma atividade sem titulo;
 			try {
+				Atividade nova_atividade;
 				String descricao = campoDescricao.getText();
 				String duracaoHora = campoDuracaoHora.getEditor().getText();
 				String duracaoMin = campoDuracaoMin.getEditor().getText();
@@ -227,14 +227,21 @@ public class controladorEditorAtividades {
 				
 				if(!edicaoAlarmeCheckbox.isSelected()) {
 					nova_atividade = new Atividade(titulo, descricao, tempoExecucao, tempoPausa);
+					Escritor.escreverAtividade(nova_atividade, this.perfil_associado.getNome());
+					tituloAtividade = nova_atividade.getTitulo();
 				} else {
 					String alarmeInicio = campoAlarmeInicio.getText();
 					String alarmeFim = campoAlarmeFim.getText();
-					nova_atividade = new Atividade(titulo, descricao, tempoExecucao, tempoPausa, alarmeInicio, alarmeFim);
+					String extensaoInicio = alarmeInicio.substring(alarmeInicio.length() - 3, alarmeInicio.length());
+					String extensaoFim = alarmeFim.substring(alarmeFim.length() - 3, alarmeFim.length());
+					if(extensaoFim.equals("mp3") && extensaoInicio.equals("mp3")) {
+						nova_atividade = new Atividade(titulo, descricao, tempoExecucao, tempoPausa, alarmeInicio, alarmeFim);
+						Escritor.escreverAtividade(nova_atividade, this.perfil_associado.getNome());
+						tituloAtividade = nova_atividade.getTitulo();
+					} else {
+						System.out.println("Extensao de arquivo incorreta.");
+					}
 				}
-	
-				Escritor.escreverAtividade(nova_atividade, this.perfil_associado.getNome());
-				tituloAtividade = nova_atividade.getTitulo();
 				
 				
 				campoDescricao.setText("");

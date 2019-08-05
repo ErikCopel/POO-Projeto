@@ -5,6 +5,8 @@ import java.io.Serializable;
 import interfaces.GerenciaTimer;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.MediaException;
 import utilidades.Utilidades;
 
 public class Atividade extends Pomodoro implements Serializable, GerenciaTimer, Cloneable {
@@ -152,6 +154,7 @@ public class Atividade extends Pomodoro implements Serializable, GerenciaTimer, 
 	public void executaTimer(Label hora, Label min, Label sec) throws InterruptedException {
 		// Recupera o tempo de execucao
 		int tempoAtual = getDuracao();
+//		tocarAlarmeInicio();
 		while(true) {
 			// Faz a thread atual (paralela a principal) esperar por 1 segundo (1000ms)
 			Thread.sleep(1000);
@@ -159,6 +162,7 @@ public class Atividade extends Pomodoro implements Serializable, GerenciaTimer, 
 			// Apresenta o tempo atual na interface de usuario
 			imprimeTempo(tempoAtual, hora, min, sec);
 			if(tempoAtual == 0) {
+//				tocarAlarmeFim();
 				break;
 			}
 		}

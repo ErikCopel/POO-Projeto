@@ -159,7 +159,7 @@ public class controladorEditorToDoList {
 	=================================================== */
 	@FXML
 	public void botaoOK() {
-		if(this.todolist != null) {
+		if(this.todolist != null && this.todolist.getIdAtual() > 0) {
 			System.out.print("Teste salvando arquivo.");
 			Escritor.escreverAtividade(this.todolist, this.perfil_associado.getNome());
 		}
@@ -233,9 +233,15 @@ public class controladorEditorToDoList {
 			if(!checkAlarme.isSelected()) {
 				this.todolist = new ToDoList(campoTitulo.getText(), campoDescricao.getText(), numeroTarefas);
 			} else {
-				String alarme_inicio = campoAlarmeInicio.getText();
-				String alarme_final = campoAlarmeFinal.getText();
-				this.todolist = new ToDoList(campoTitulo.getText(), campoDescricao.getText(), numeroTarefas, alarme_inicio, alarme_final);
+				String alarmeInicio = campoAlarmeInicio.getText();
+				String alarmeFim = campoAlarmeFinal.getText();
+				String extensaoInicio = alarmeInicio.substring(alarmeInicio.length() - 3, alarmeInicio.length());
+				String extensaoFim = alarmeFim.substring(alarmeFim.length() - 3, alarmeFim.length());
+				if(extensaoFim.equals("mp3") && extensaoInicio.equals("mp3")) {
+					this.todolist = new ToDoList(campoTitulo.getText(), campoDescricao.getText(), numeroTarefas, alarmeInicio, alarmeFim);
+				} else {
+					System.out.println("Extensao de arquivo incorreta.");
+				}
 			}
 			ativarDesativarEditorTarefas(false);
 		}
@@ -390,8 +396,8 @@ public class controladorEditorToDoList {
 	=================================================== */
 	public void carregarComboBoxNTarefas() {
 		Integer[] numeroTarefas = new Integer[100];
-		for(int i = 0; i < 100; i++) {
-			numeroTarefas[i] = i;
+		for(int i = 1; i <= 100; i++) {
+			numeroTarefas[i-1] = i;
 		}
 		campoNumeroTarefas.getItems().setAll(numeroTarefas);
 		campoNumeroTarefas.getSelectionModel().select(0);
